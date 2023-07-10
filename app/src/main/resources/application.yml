@@ -1,0 +1,18 @@
+server:
+  ssl:
+    enabled: false
+  port: 8080
+
+springdoc:
+  swagger-ui:
+    path: /docs/index.html
+
+logging:
+  pattern:
+    dateformat: "yyyy-MM-dd HH:mm:ss:SSSZ"
+    level:
+      org:
+        springframework:
+          web: INFO
+          data.convert.CustomConversions: ERROR
+        axonframework.extensions.tracing.TracingCommandGateway: OFF

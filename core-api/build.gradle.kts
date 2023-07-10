@@ -1,19 +1,11 @@
 plugins {
-    id("java")
-    kotlin("jvm") version "1.9.0"
-}
-
-group = "boris"
-version = "1.0-SNAPSHOT"
-
-repositories {
-    mavenCentral()
+    `java-library`
+    id("common-conventions")
+    id("kotlin-conventions")
 }
 
 dependencies {
-    implementation("org.axonframework:axon-modelling:4.8.0")
-
-    testImplementation(platform("org.junit:junit-bom:5.9.1"))
-    testImplementation("org.junit.jupiter:junit-jupiter")
-    implementation(kotlin("stdlib-jdk8"))
+    implementation(libs.axon.modeling)
+    implementation(libs.spring.boot)
+    implementation(libs.springdoc.openapi.common)
 }

@@ -1,0 +1,50 @@
+[versions]
+axon = "4.6.2"
+axon-reactore = "4.6.0"
+kotlin = "1.7.21"
+spring-boot = "2.7.5"
+springdoc = "1.6.13"
+
+[libraries]
+# AXON
+axon-modeling = { module = "org.axonframework:axon-modelling", version.ref = "axon" }
+axon-messaging = { module = "org.axonframework:axon-messaging", version.ref = "axon" }
+axon-eventsourcing = { module = "org.axonframework:axon-eventsourcing", version.ref = "axon" }
+axon-spring = { module = "org.axonframework:axon-spring", version.ref = "axon" }
+axon-spring-boot-starter = { module = "org.axonframework:axon-spring-boot-starter", version.ref = "axon" }
+axon-test = { module = "org.axonframework:axon-test", version.ref = "axon" }
+
+# AXON REACTOR
+axon-extansions-reactor = { module = "org.axonframework.extensions.reactor:axon-reactor", version.ref = "axon-reactore" }
+axon-extensions-reactor-spring-boot-starter = { module = "org.axonframework.extensions.reactor:axon-reactor-spring-boot-starter", version.ref = "axon-reactore" }
+axon-extensions-reactor-spring-boot-autoconfigurer = { module = "org.axonframework.extensions.reactor:axon-reactor-spring-boot-autoconfigure", version.ref = "axon-reactore"}
+
+# SPRING BOOT
+spring-boot = { module = "org.springframework.boot:spring-boot" }
+spring-boot-autoconfigure = { module = "org.springframework.boot:spring-boot-autoconfigure" }
+spring-boot-test = { module = "org.springframework.boot:spring-boot-test" }
+spring-boot-starter = { module = "org.springframework.boot:spring-boot-starter" }
+spring-boot-starter-actuator = { module = "org.springframework.boot:spring-boot-starter-actuator" }
+spring-boot-starter-webflux = { module = "org.springframework.boot:spring-boot-starter-webflux", version = "2.7.5" }
+spring-boot-starter-test = { module = "org.springframework.boot:spring-boot-starter-test" }
+h2 = { module = "com.h2database:h2" }
+micrometer-registry-prometheus = { module = "io.micrometer:micrometer-registry-prometheus" }
+
+# SPRINGDOC
+springdoc-openapi-common = { module = "org.springdoc:springdoc-openapi-common", version.ref = "springdoc"}
+springdoc-openapi-webflux-ui = { module = "org.springdoc:springdoc-openapi-webflux-ui", version.ref = "springdoc"}
+
+kotlin-plugin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin"}
+spring-boot-plugin = { module = "org.springframework.boot:spring-boot-gradle-plugin", version.ref = "spring-boot"}
+
+[bundles]
+spring-boot-starters = [
+    "spring-boot-starter-actuator",
+    "spring-boot-starter-webflux"
+]
+
+[plugins]
+kotlin = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin"}
+spring-boot = { id = "org.springframework.boot", version.ref = "spring-boot"}
+
+
