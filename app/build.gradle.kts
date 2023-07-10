@@ -6,7 +6,6 @@ plugins {
 }
 
 dependencies {
-    implementation(project(":core-api"))
 
     implementation(libs.axon.extensions.reactor.spring.boot.starter)
     implementation(libs.axon.messaging)

@@ -3,7 +3,8 @@ package org.boris.rest.handler;
 import org.axonframework.extensions.reactor.commandhandling.gateway.ReactorCommandGateway;
 import org.boris.rest.AddNewVehicleDTO;
 import org.boris.rest.exceptions.InvalidBodyException;
-import org.boris.vehicle.AddNewVehicleCommand;
+import org.boris.core_api.AddNewVehicleCommand;
+import org.boris.core_api.VehicleId;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.MediaType;
@@ -30,14 +31,14 @@ public class VehicleHandler {
                 .bodyToMono(AddNewVehicleDTO.class)
                 .onErrorMap(throwable -> new InvalidBodyException(throwable.getMessage()))
                 .flatMap(dto -> {
-                    return commandGateway.<String>send(
+                    return commandGateway.<VehicleId>send(
                             new AddNewVehicleCommand(
-                                    dto.getVehicleReg(),
-                                    Optional.ofNullable(dto.getTelematicsEnabled()).orElse(false)
+                                    new VehicleId(dto.getVehicleReg()),
+                                    dto.getTelematicsEnabled()
                             )
                     );
                 }).flatMap(id -> ServerResponse.ok()
                         .contentType(MediaType.APPLICATION_JSON)
-                        .bodyValue(id));
+                        .bodyValue(id.getIdentifier()));
     }
 }

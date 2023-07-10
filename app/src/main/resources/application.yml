@@ -15,4 +15,3 @@ logging:
         springframework:
           web: INFO
           data.convert.CustomConversions: ERROR
-        axonframework.extensions.tracing.TracingCommandGateway: OFF
