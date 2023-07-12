@@ -1,0 +1,43 @@
+spring:
+  quartz:
+    job-store-type: jdbc
+    jdbc:
+      initialize-schema: always
+      schema: classpath:quartz_jdbc_store.sql
+    properties:
+      org:
+        quartz:
+          dataSource:
+            postgres:
+              driver: org.postgresql.Driver
+              URL: jdbc:postgresql://localhost/postgres
+              user: postgres
+              password: postgres
+          jobStore:
+            class: org.quartz.impl.jdbcjobstore.JobStoreTX
+            driverDelegateClass: org.quartz.impl.jdbcjobstore.PostgreSQLDelegate
+            dataSource: postgres
+            isClustered: true
+            misfireThreshold: 30000
+          scheduler:
+            instanceId: AUTO
+            instanceName: BorisScheduler
+  jpa:
+    postgres:
+      database-platform: org.hibernate.dialect.PostgreSQLDialect
+      show-sql: false
+      format-sql: false
+      generate-ddl: true
+      hibernate:
+        hbm2ddl:
+          auto: update
+  datasource:
+    postgres:
+      jdbc-url: jdbc:postgresql://localhost:5432/postgres
+      username: postgres
+      password: postgres
+      driverClassName: org.postgresql.Driver
+      maxPoolSize: 100
+      connectionTimeout: 30000
+      idleTimeout: 600000
+      maxLifetime: 1800000

@@ -14,6 +14,12 @@ dependencies {
     implementation(libs.springdoc.openapi.common)
     implementation(libs.springdoc.openapi.webflux.ui)
     implementation(libs.axon.spring.boot.starter)
+    implementation(libs.spring.boot.starter.quartz)
+    implementation(libs.spring.boot.starter.data.jpa)
+    implementation(libs.h2)
+    implementation(libs.postgresql)
+    implementation(libs.jackson.module.kotlin)
+    implementation(libs.c3p0)
 
     testImplementation(libs.axon.spring.boot.starter)
     testImplementation(libs.spring.boot.starter.test)
