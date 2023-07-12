@@ -10,7 +10,8 @@ abstract class VehicleCommand(
 
 data class AddNewVehicleCommand(
     override val vehicleReg: VehicleId = VehicleId(),
-    val telematicsEnabled: Boolean?
+    val telematicsEnabled: Boolean?,
+    val initialCountry: String
 ) : VehicleCommand(vehicleReg)
 
 data class UpdateVehicleTelematicsCommand(
@@ -20,7 +21,6 @@ data class UpdateVehicleTelematicsCommand(
 
 data class UpdateVehiclePositionCommand(
     override val vehicleReg: VehicleId,
-    val isRunManually: Boolean,
     val isUpdateManually: Boolean,
     val coordinate: Coordinate?,
     val country: String?,

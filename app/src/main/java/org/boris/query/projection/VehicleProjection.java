@@ -24,6 +24,7 @@ public class VehicleProjection {
 
         final Vehicles view = new Vehicles();
         view.setVehicleReg(vehicleReg);
+        view.setTelematics(event.getTelematicsEnabled());
 
         vehiclesRepository.save(view);
         LOGGER.info("Vehicles [{}] has been saved", vehicleReg);

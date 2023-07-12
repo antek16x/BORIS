@@ -8,7 +8,8 @@ abstract class VehicleEvent(
 
 data class NewVehicleAddedEvent(
     override val vehicleReg: VehicleId,
-    val telematicsEnabled: Boolean
+    val telematicsEnabled: Boolean,
+    val initialCountry: String
 ) : VehicleEvent(vehicleReg)
 
 data class VehicleTelematicsUpdatedEvent(

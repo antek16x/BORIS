@@ -34,7 +34,6 @@ public class Vehicle {
     private Boolean telematics;
     private Coordinate lastKnownCoordinate;
     private String lastKnownCountry;
-    private Instant lastKnownTimestamp;
     private String countryOut;
     private Instant crossingBorderTimestamp;
 
@@ -48,7 +47,8 @@ public class Vehicle {
         LOGGER.info("Successfully added vehicle with registration number [{}]", command.getVehicleReg().getIdentifier());
         apply(new NewVehicleAddedEvent(
                 command.getVehicleReg(),
-                Optional.ofNullable(command.getTelematicsEnabled()).orElse(false)
+                Optional.ofNullable(command.getTelematicsEnabled()).orElse(false),
+                command.getInitialCountry()
         )).andThen(() -> {
             if (this.telematics) {
                 scheduleDeadline(deadlineManager, command.getVehicleReg(), GET_VEHICLE_POSITION_DEADLINE);
@@ -79,11 +79,10 @@ public class Vehicle {
 
     @CommandHandler
     public void on(UpdateVehiclePositionCommand command, DeadlineManager deadlineManager) {
-        if (command.isRunManually()) {
-            //miejsce na odpytanie serwisu
-        }
-        else if (command.isUpdateManually()) {
+        if (command.isUpdateManually()) {
+            LOGGER.info("Manually update position of vehicle with registration plate [{}]", command.getVehicleReg());
             if (!Objects.equals(command.getCountry(), lastKnownCountry)) {
+                LOGGER.info("Vehicle with registration plate [{}] crossed the border, confirmation not required", command.getVehicleReg());
                 apply(new CrossingBorderConfirmedEvent(
                         command.getVehicleReg(),
                         Objects.requireNonNull(command.getTimestamp()),
@@ -96,6 +95,7 @@ public class Vehicle {
                         command.getTimestamp()
                 ));
             } else {
+                LOGGER.info("Vehicle has not crossed the border");
                 apply(new LastVehiclePositionUpdatedEvent(
                         command.getVehicleReg(),
                         Objects.requireNonNull(command.getCoordinate()),
@@ -105,6 +105,7 @@ public class Vehicle {
             }
         }
         else {
+            // miejsce na odpytanie serwisu
             if (!Objects.equals(command.getCountry(), lastKnownCountry)) {
                 apply(new VehicleCrossedBorderEvent(
                         command.getVehicleReg(),
@@ -132,8 +133,7 @@ public class Vehicle {
         this.vehicleReg = event.getVehicleReg();
         this.telematics = event.getTelematicsEnabled();
         this.lastKnownCoordinate = null;
-        this.lastKnownCountry = null;
-        this.lastKnownTimestamp = null;
+        this.lastKnownCountry = event.getInitialCountry();
         this.countryOut = null;
         this.crossingBorderTimestamp = null;
     }
@@ -153,7 +153,6 @@ public class Vehicle {
     public void on(LastVehiclePositionUpdatedEvent event) {
         this.lastKnownCountry = event.getCountry();
         this.lastKnownCoordinate = event.getCoordinate();
-        this.lastKnownTimestamp = event.getTimestamp();
     }
 
     @DeadlineHandler(deadlineName = GET_VEHICLE_POSITION_DEADLINE)

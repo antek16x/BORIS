@@ -14,6 +14,9 @@ public class Vehicles {
     @Column(name = "VehicleReg")
     String vehicleReg;
 
+    @Column(name = "TelematiceEnabled")
+    Boolean telematics;
+
     public String getVehicleReg() {
         return vehicleReg;
     }
@@ -22,17 +25,25 @@ public class Vehicles {
         this.vehicleReg = vehicleReg;
     }
 
+    public Boolean getTelematics() {
+        return telematics;
+    }
+
+    public void setTelematics(Boolean telematics) {
+        this.telematics = telematics;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof Vehicles that)) {
             return false;
         }
-        return vehicleReg.equalsIgnoreCase(that.vehicleReg);
+        return vehicleReg.equalsIgnoreCase(that.vehicleReg) && telematics.equals(that.telematics);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(vehicleReg);
+        return Objects.hash(vehicleReg, telematics);
     }
 }
