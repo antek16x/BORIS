@@ -1,6 +1,7 @@
 package org.boris.core_api
 
 import org.axonframework.modelling.command.TargetAggregateIdentifier
+import java.time.Instant
 
 abstract class VehicleCommand(
     @TargetAggregateIdentifier
@@ -12,19 +13,23 @@ data class AddNewVehicleCommand(
     val telematicsEnabled: Boolean?
 ) : VehicleCommand(vehicleReg)
 
-//data class UpdateVehiclePositionCommand(
-//    @TargetAggregateIdentifier
-//    val vehicleReg: String,
-//    val isRunManually: Boolean,
-//    val coordinate: Coordinate?,
-//    val country: String?,
-//    val timestamp: Instant?
-//)
-//
-//data class ConfirmCrossingBorderCommand(
-//    @TargetAggregateIdentifier
-//    val vehicleReg: String,
-//    val timestamp: Instant,
-//    val countryOut: String,
-//    val countryIn: String
-//)
+data class UpdateVehicleTelematicsCommand(
+    override val vehicleReg: VehicleId,
+    val telematicsEnabled: Boolean
+) : VehicleCommand(vehicleReg)
+
+data class UpdateVehiclePositionCommand(
+    override val vehicleReg: VehicleId,
+    val isRunManually: Boolean,
+    val isUpdateManually: Boolean,
+    val coordinate: Coordinate?,
+    val country: String?,
+    val timestamp: Instant?
+) : VehicleCommand(vehicleReg)
+
+data class ConfirmCrossingBorderCommand(
+    override val vehicleReg: VehicleId,
+    val timestamp: Instant,
+    val countryOut: String,
+    val countryIn: String
+) : VehicleCommand(vehicleReg)

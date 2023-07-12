@@ -12,12 +12,12 @@ data class AddNewVehicleDTO(
 )
 
 @Schema(description = "Content of update vehicle telematics")
-data class UpdateVehicleDTO(
+data class UpdateVehicleTelematicsDTO(
     @get:Schema(
         description = "Parameter to disabled/enabled vehicle telematics",
         defaultValue = "false"
     )
-    val enabled: Boolean?
+    val enabled: Boolean
 )
 
 @Schema(description = "Content of update vehicle position")
