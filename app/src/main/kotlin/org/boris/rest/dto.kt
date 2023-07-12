@@ -8,7 +8,9 @@ data class AddNewVehicleDTO(
     @get:Schema(description = "Vehicle registration plate")
     val vehicleReg: String,
     @get:Schema(description = "Telematics on/off")
-    val telematicsEnabled: Boolean?
+    val telematicsEnabled: Boolean?,
+    @get:Schema(description = "Initial country")
+    val initialCountry: String
 )
 
 @Schema(description = "Content of update vehicle telematics")
@@ -22,8 +24,6 @@ data class UpdateVehicleTelematicsDTO(
 
 @Schema(description = "Content of update vehicle position")
 data class UpdateVehiclePositionDTO(
-    @get:Schema(description = "Vehicle registration plate")
-    val vehicleReg: String,
     @get:Schema(description = "Vehicle position to entry")
     val positions: List<Position>
 )
@@ -49,31 +49,31 @@ data class Coordinate(
 @Schema(description = "Content of border crossing report")
 data class BorderCrossingReportDTO(
     @get:Schema(description = "Report generation timestamp", example = "2023-07-09T10:00:00Z")
-    val reportTimestamp: Instant,
+    var reportTimestamp: Instant,
     @get:Schema(description = "Broder crossing event report")
-    val report: List<Report>,
+    var report: List<Report>,
 )
 
 @Schema(description = "Content of report")
 data class Report(
     @get:Schema(description = "Information's about crossing the borders")
-    val borderCrossingEvent: BorderCrossingEvent,
+    var borderCrossingEvents: BorderCrossingEvents?,
 )
 
 @Schema(description = "Content of information about borders crossing")
-data class BorderCrossingEvent(
+data class BorderCrossingEvents(
     @get:Schema(description = "Vehicle registration plate" , example = "ABC123")
-    val vehicleReg: String,
+    var vehicleReg: String,
     @get:Schema(description = "List of crossing border events")
-    val events: List<Events>
+    var events: List<Event>
 )
 
 @Schema(description = "Content of border crossing event")
-data class Events(
+data class Event(
     @get:Schema(description = "Event timestamp", example = "2023-07-09T10:00:00Z")
-    val eventTimestamp: Instant,
+    var eventTimestamp: Instant,
     @get:Schema(description = "The code of the country that has been left (ISO Alpha-3)", example = "POL")
-    val countryOut: String,
+    var countryOut: String,
     @get:Schema(description = "The code of the country you entered (ISO Alpha-3)", example = "DEU")
-    val countryIn: String,
+    var countryIn: String,
 )
