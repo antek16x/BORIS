@@ -1,0 +1,22 @@
+version: '3'
+
+services:
+  axon-server:
+    image: axoniq/axonserver
+    ports:
+      - 8024:8024
+      - 8124:8124
+    environment:
+      - AXONSERVER_HOSTNAME=localhost
+    hostname: localhost
+    container_name: my-axon-server
+    restart: always
+
+  postgres:
+    image: postgres
+    ports:
+      - 5432:5432
+    environment:
+      - POSTGRES_PASSWORD=postgres
+    container_name: postgres-boris
+    restart: always
