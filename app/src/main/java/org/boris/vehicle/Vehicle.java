@@ -10,6 +10,8 @@ import org.axonframework.modelling.command.AggregateScopeDescriptor;
 import org.axonframework.modelling.command.CommandHandlerInterceptor;
 import org.axonframework.spring.stereotype.Aggregate;
 import org.boris.core_api.*;
+import org.boris.services.VehiclePositionService;
+import org.boris.vehicle.exceptions.InvalidTelematicsUpdateException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -32,7 +34,6 @@ public class Vehicle {
     private VehicleId vehicleReg;
 
     private Boolean telematics;
-    private Coordinate lastKnownCoordinate;
     private String lastKnownCountry;
     private String countryOut;
     private Instant crossingBorderTimestamp;
@@ -78,7 +79,7 @@ public class Vehicle {
     }
 
     @CommandHandler
-    public void on(UpdateVehiclePositionCommand command, DeadlineManager deadlineManager) {
+    public void on(UpdateVehiclePositionCommand command, VehiclePositionService service, DeadlineManager deadlineManager) {
         if (command.isUpdateManually()) {
             LOGGER.info("Manually update position of vehicle with registration plate [{}]", command.getVehicleReg());
             if (!Objects.equals(command.getCountry(), lastKnownCountry)) {
@@ -105,26 +106,8 @@ public class Vehicle {
             }
         }
         else {
-            // miejsce na odpytanie serwisu
-            if (!Objects.equals(command.getCountry(), lastKnownCountry)) {
-                apply(new VehicleCrossedBorderEvent(
-                        command.getVehicleReg(),
-                        this.lastKnownCountry,
-                        Objects.requireNonNull(command.getTimestamp())
-                )).andThenApply(() -> new LastVehiclePositionUpdatedEvent(
-                        command.getVehicleReg(),
-                        Objects.requireNonNull(command.getCoordinate()),
-                        Objects.requireNonNull(command.getCountry()),
-                        command.getTimestamp()
-                )).andThen(() -> scheduleDeadline(deadlineManager, command.getVehicleReg(), CONFIRM_BORDER_CROSSING_DEADLINE));
-            } else {
-                apply(new LastVehiclePositionUpdatedEvent(
-                        command.getVehicleReg(),
-                        Objects.requireNonNull(command.getCoordinate()),
-                        Objects.requireNonNull(command.getCountry()),
-                        Objects.requireNonNull(command.getTimestamp())
-                ));
-            }
+            cancelGetVehiclePositionDeadline(deadlineManager);
+            processServiceResponse(service, deadlineManager);
         }
     }
 
@@ -132,7 +115,6 @@ public class Vehicle {
     public void on(NewVehicleAddedEvent event) {
         this.vehicleReg = event.getVehicleReg();
         this.telematics = event.getTelematicsEnabled();
-        this.lastKnownCoordinate = null;
         this.lastKnownCountry = event.getInitialCountry();
         this.countryOut = null;
         this.crossingBorderTimestamp = null;
@@ -152,21 +134,101 @@ public class Vehicle {
     @EventSourcingHandler
     public void on(LastVehiclePositionUpdatedEvent event) {
         this.lastKnownCountry = event.getCountry();
-        this.lastKnownCoordinate = event.getCoordinate();
+    }
+
+    @EventSourcingHandler
+    public void on(CrossingBorderConfirmedEvent event) {
+        this.countryOut = null;
+        this.crossingBorderTimestamp = null;
     }
 
     @DeadlineHandler(deadlineName = GET_VEHICLE_POSITION_DEADLINE)
-    public void on() {
-        LOGGER.info("Hello from deadline handler");
+    public void on(String payload, VehiclePositionService service, DeadlineManager deadlineManager) {
+        LOGGER.info("Deadline for getting vehicle position passed");
+        processServiceResponse(service, deadlineManager);
+    }
+
+    @DeadlineHandler(deadlineName = CONFIRM_BORDER_CROSSING_DEADLINE)
+    public void onConfirmationDeadline(String payload, VehiclePositionService service, DeadlineManager deadlineManager) {
+        LOGGER.info("Deadline for crossing border confirmation passed, trying to confirm");
+        var serviceResponse = service.getVehiclePosition(this.vehicleReg.getIdentifier());
+        serviceResponse.subscribe(positions -> {
+            var position = positions.get(0);
+            if (!position.getCountry().equals(countryOut)) {
+                LOGGER.info("Crossing border for vehicle [{}] has been confirmed", this.vehicleReg.getIdentifier());
+                apply(new CrossingBorderConfirmedEvent(
+                        this.vehicleReg,
+                        this.crossingBorderTimestamp,
+                        this.countryOut,
+                        position.getCountry()
+                )).andThenApply(() -> new LastVehiclePositionUpdatedEvent(
+                        this.vehicleReg,
+                        position.getCoordinate(),
+                        position.getCountry(),
+                        position.getTimestamp()
+                ));
+            } else {
+                LOGGER.info("Crossing border for vehicle [{}] confirmed failed", this.vehicleReg.getIdentifier());
+                apply(new LastVehiclePositionUpdatedEvent(
+                        this.vehicleReg,
+                        position.getCoordinate(),
+                        position.getCountry(),
+                        position.getTimestamp()
+                ));
+            }
+        });
+        if (this.telematics) {
+            scheduleDeadline(deadlineManager, this.vehicleReg, GET_VEHICLE_POSITION_DEADLINE);
+        }
     }
 
 
     private void scheduleDeadline(DeadlineManager deadlineManager, VehicleId vehicleReg, String deadlineName) {
         deadlineManager.schedule(
-                Duration.ofMinutes(5),
+                Duration.ofMinutes(1),
                 deadlineName,
                 vehicleReg.toString(),
-                new AggregateScopeDescriptor("org.boris.vehicle.Vehicle", vehicleReg.toString())
+                new AggregateScopeDescriptor("Vehicle", vehicleReg.toString())
         );
+    }
+
+    private void cancelGetVehiclePositionDeadline(DeadlineManager deadlineManager) {
+        LOGGER.info("Get vehicle position deadline for aggregate [{}] cancelled", this.vehicleReg.getIdentifier());
+        deadlineManager.cancelAllWithinScope(GET_VEHICLE_POSITION_DEADLINE,
+                new AggregateScopeDescriptor("Vehicle", this.vehicleReg.toString()));
+    }
+
+    private void processServiceResponse(VehiclePositionService service, DeadlineManager deadlineManager) {
+        LOGGER.info("Update position of vehicle with registration plate [{}] by service", this.vehicleReg);
+        var serviceResponse = service.getVehiclePosition(this.vehicleReg.getIdentifier());
+        serviceResponse.subscribe(positions -> {
+            for (var position : positions) {
+                if (!Objects.equals(position.getCountry(), lastKnownCountry)) {
+                    LOGGER.info("Vehicle with registration plate [{}] crossed the border, confirmation required", this.vehicleReg);
+                    apply(new VehicleCrossedBorderEvent(
+                            this.vehicleReg,
+                            this.lastKnownCountry,
+                            position.getTimestamp()
+                    )).andThenApply(() -> new LastVehiclePositionUpdatedEvent(
+                            this.vehicleReg,
+                            position.getCoordinate(),
+                            position.getCountry(),
+                            position.getTimestamp()
+                    )).andThen(() -> scheduleDeadline(deadlineManager, this.vehicleReg, CONFIRM_BORDER_CROSSING_DEADLINE));
+                } else {
+                    LOGGER.info("Vehicle has not crossed the border");
+                    apply(new LastVehiclePositionUpdatedEvent(
+                            this.vehicleReg,
+                            position.getCoordinate(),
+                            position.getCountry(),
+                            position.getTimestamp()
+                    )).andThen(() -> {
+                        if (this.telematics) {
+                            scheduleDeadline(deadlineManager, this.vehicleReg, GET_VEHICLE_POSITION_DEADLINE);
+                        }
+                    });
+                }
+            }
+        });
     }
 }

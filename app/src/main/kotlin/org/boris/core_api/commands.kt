@@ -26,10 +26,3 @@ data class UpdateVehiclePositionCommand(
     val country: String?,
     val timestamp: Instant?
 ) : VehicleCommand(vehicleReg)
-
-data class ConfirmCrossingBorderCommand(
-    override val vehicleReg: VehicleId,
-    val timestamp: Instant,
-    val countryOut: String,
-    val countryIn: String
-) : VehicleCommand(vehicleReg)

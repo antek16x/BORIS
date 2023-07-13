@@ -1,4 +1,4 @@
-package org.boris.vehicle;
+package org.boris.vehicle.exceptions;
 
 public class InvalidTelematicsUpdateException extends Exception{
 
