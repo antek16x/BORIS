@@ -13,15 +13,12 @@ import org.axonframework.extensions.reactor.commandhandling.gateway.ReactorComma
 import org.boris.rest.*;
 import org.boris.rest.handler.VehicleHandler;
 import org.boris.services.VehicleService;
-import org.checkerframework.checker.units.qual.C;
 import org.springdoc.core.annotations.RouterOperation;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.MediaType;
 import org.springframework.web.reactive.function.server.RouterFunction;
 import org.springframework.web.reactive.function.server.ServerResponse;
-
-import java.time.Instant;
 
 import static org.springframework.web.reactive.function.server.RequestPredicates.*;
 import static org.springframework.web.reactive.function.server.RouterFunctions.route;
@@ -38,8 +35,8 @@ public class VehicleRouter {
     public static final String VEHICLE_URL = "/api/v1/vehicle";
     public static final String VEHICLE_TELEMETICS_SWITCH = VEHICLE_URL + "/{vehicleReg}/telematics";
     public static final String VEHICLE_POSITION_UPDATE_MANUALLY = VEHICLE_URL + "/{vehicleReg}/update-manually";
+    public static final String VEHICLE_GET_POSITION = VEHICLE_URL + "/{vehicleReg}/get-position";
     public static final String VEHICLE_BORDER_CROSSING_REPORT = VEHICLE_URL + "/{vehicleReg}/generate-report";
-//    public static final String VEHICLE_POSITION_URL = VEHICLE_URL + "/position";
 
     @Bean
     @RouterOperation(
@@ -119,8 +116,34 @@ public class VehicleRouter {
         return route(
                 POST(VEHICLE_POSITION_UPDATE_MANUALLY)
                         .and(contentType(MediaType.APPLICATION_JSON))
-                        .and(accept(MediaType.APPLICATION_JSON)),
+                        .and(accept(MediaType.APPLICATION_JSON).or(accept(MediaType.TEXT_PLAIN))),
                 handler::updateVehiclePosition
+        );
+    }
+
+    @Bean
+    @RouterOperation(
+            path = VEHICLE_GET_POSITION,
+            operation = @Operation(
+                    operationId = "runGettingVehiclePositionMechanism",
+                    tags = {"Vehicle"},
+                    summary = "Run mechanism for getting the position of the vehicle",
+                    parameters = @Parameter(
+                            in = ParameterIn.PATH, name = "vehicleReg",
+                            description = "Vehicle registration plate"
+                    ),
+                    responses = {
+                            @ApiResponse(
+                                    responseCode = "200",
+                                    description = "Activation of the vehicle position get mechanism was successful",
+                                    content = @Content(schema = @Schema(implementation = String.class))
+                            )
+                    }))
+    public RouterFunction<ServerResponse> routeRunGettingPositionMechanism(VehicleHandler handler) {
+        return route(
+                POST(VEHICLE_GET_POSITION)
+                        .and(accept(MediaType.TEXT_PLAIN)),
+                handler::runGettingPositionMechanism
         );
     }
 

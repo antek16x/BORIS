@@ -3,10 +3,12 @@ package org.boris.rest.handler;
 import org.axonframework.extensions.reactor.commandhandling.gateway.ReactorCommandGateway;
 import org.boris.core_api.*;
 import org.boris.core_api.Coordinate;
-import org.boris.query.entity.BorderCrossing;
 import org.boris.rest.*;
 import org.boris.rest.exceptions.InvalidBodyException;
+import org.boris.rest.exceptions.InvalidCountryCodeException;
+import org.boris.rest.exceptions.VehicleAlreadyExistsException;
 import org.boris.services.VehicleService;
+import org.boris.validator.VehicleValidator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -40,9 +42,7 @@ public class VehicleHandler {
                 .flatMap(dto -> {
                     var vehicleExists = vehicleService.checkIfVehicleExists(dto.getVehicleReg());
                     if (vehicleExists) {
-                        return ServerResponse.badRequest()
-                                .contentType(MediaType.TEXT_PLAIN)
-                                .bodyValue("Vehicle already exists");
+                        return Mono.error(new VehicleAlreadyExistsException("Vehicle already exists"));
                     } else {
                         return commandGateway.<VehicleId>send(
                                 new AddNewVehicleCommand(
@@ -54,7 +54,8 @@ public class VehicleHandler {
                                 .contentType(MediaType.TEXT_PLAIN)
                                 .bodyValue(id.getIdentifier()));
                     }
-                });
+                })
+                .onErrorResume(this::onError);
     }
 
     @NotNull
@@ -83,22 +84,48 @@ public class VehicleHandler {
         var dtoMono = request.bodyToMono(UpdateVehiclePositionDTO.class);
 
         return dtoMono
-                .flatMapMany(dto -> Flux.fromIterable(dto.getPositions()))
-                .flatMap(position -> {
-                    var command = new UpdateVehiclePositionCommand(
-                            vehicleId,
-                            true,
-                            convertDTOToValueObject(position.getCoordinate()),
-                            position.getCountry(),
-                            position.getTimestamp()
-                    );
-                    return commandGateway.send(command).thenReturn(position);
+                .flatMap(dto -> {
+                    boolean allCountriesValid = dto.getPositions().stream()
+                            .allMatch(position -> VehicleValidator.isValidCountryCode(position.getCountry()));
+
+                    if (!allCountriesValid) {
+                        return Mono.error(new InvalidCountryCodeException("Invalid country code"));
+                    }
+
+                    return Flux.fromIterable(dto.getPositions())
+                            .flatMap(position -> {
+                                var command = new UpdateVehiclePositionCommand(
+                                    vehicleId,
+                                    true,
+                                    convertDTOToValueObject(position.getCoordinate()),
+                                    position.getCountry(),
+                                    position.getTimestamp()
+                                );
+                                return commandGateway.send(command).thenReturn(position);
+                            })
+                            .collectList()
+                            .flatMap(positions -> ServerResponse.ok()
+                                    .contentType(MediaType.APPLICATION_JSON)
+                                    .bodyValue(positions));
                 })
-                .collectList()
-                .flatMap(positions -> ServerResponse.ok()
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .bodyValue(positions))
                 .onErrorResume(this::onError);
+    }
+
+    public Mono<ServerResponse> runGettingPositionMechanism(ServerRequest request) {
+        var vehicleId = new VehicleId(request.pathVariable("vehicleReg"));
+
+        return commandGateway.send(
+                new UpdateVehiclePositionCommand(
+                        vehicleId,
+                        false,
+                        null,
+                        null,
+                        null
+                )
+        ).flatMap(resp -> ServerResponse.ok()
+                .contentType(MediaType.TEXT_PLAIN)
+                .bodyValue(String.format("Successful run getting vehicle position mechanism for vehicle %s", vehicleId.getIdentifier()))
+        ).onErrorResume(this::onError);
     }
 
     public Mono<ServerResponse> generateBorderCrossingReport(ServerRequest request) {
@@ -149,6 +176,20 @@ public class VehicleHandler {
                     .status(HttpStatus.CONFLICT)
                     .contentType(MediaType.TEXT_PLAIN)
                     .bodyValue("Cannot change telmetics status to the same");
+        }
+
+        if (throwable instanceof InvalidCountryCodeException) {
+            return ServerResponse
+                    .badRequest()
+                    .contentType(MediaType.TEXT_PLAIN)
+                    .bodyValue("One of the country codes is incorrect");
+        }
+
+        if (throwable instanceof VehicleAlreadyExistsException) {
+            return ServerResponse
+                    .badRequest()
+                    .contentType(MediaType.TEXT_PLAIN)
+                    .bodyValue("Vehicle with entered registration plate already exists");
         }
         return ServerResponse.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
     }
