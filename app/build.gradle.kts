@@ -28,6 +28,7 @@ dependencies {
     testImplementation(libs.okhhtp3)
     testImplementation(libs.jackson.datatype)
     testImplementation(libs.h2)
+    testImplementation(libs.axon.test)
 }
 
 application {

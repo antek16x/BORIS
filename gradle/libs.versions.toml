@@ -9,30 +9,22 @@ springdoc = "1.6.13"
 # AXON
 axon-modeling = { module = "org.axonframework:axon-modelling", version.ref = "axon" }
 axon-messaging = { module = "org.axonframework:axon-messaging", version.ref = "axon" }
-axon-eventsourcing = { module = "org.axonframework:axon-eventsourcing", version.ref = "axon" }
-axon-spring = { module = "org.axonframework:axon-spring", version.ref = "axon" }
 axon-spring-boot-starter = { module = "org.axonframework:axon-spring-boot-starter", version.ref = "axon" }
 axon-test = { module = "org.axonframework:axon-test", version.ref = "axon" }
 
 # AXON REACTOR
-axon-extansions-reactor = { module = "org.axonframework.extensions.reactor:axon-reactor", version.ref = "axon-reactore" }
 axon-extensions-reactor-spring-boot-starter = { module = "org.axonframework.extensions.reactor:axon-reactor-spring-boot-starter", version.ref = "axon-reactore" }
-axon-extensions-reactor-spring-boot-autoconfigurer = { module = "org.axonframework.extensions.reactor:axon-reactor-spring-boot-autoconfigure", version.ref = "axon-reactore"}
 
 # SPRING BOOT
 spring-boot = { module = "org.springframework.boot:spring-boot" }
-spring-boot-autoconfigure = { module = "org.springframework.boot:spring-boot-autoconfigure" }
-spring-boot-test = { module = "org.springframework.boot:spring-boot-test" }
 spring-boot-starter = { module = "org.springframework.boot:spring-boot-starter" }
 spring-boot-starter-quartz = { module = "org.springframework.boot:spring-boot-starter-quartz" }
 spring-boot-starter-data-jpa = { module = "org.springframework.boot:spring-boot-starter-data-jpa" }
-spring-boot-starter-actuator = { module = "org.springframework.boot:spring-boot-starter-actuator" }
 spring-boot-starter-webflux = { module = "org.springframework.boot:spring-boot-starter-webflux", version = "2.7.5" }
 spring-boot-starter-test = { module = "org.springframework.boot:spring-boot-starter-test" }
 jackson-module-kotlin = { module = "com.fasterxml.jackson.module:jackson-module-kotlin" }
 jackson-datatype = { module = "com.fasterxml.jackson.datatype:jackson-datatype-jsr310" }
 h2 = { module = "com.h2database:h2" }
-micrometer-registry-prometheus = { module = "io.micrometer:micrometer-registry-prometheus" }
 postgresql = { module = "org.postgresql:postgresql" }
 c3p0 = { module = "com.mchange:c3p0", version = "0.9.5.5"}
 coordinates = { module = "io.github.coordinates2country:coordinates2country", version = "1.2" }
@@ -48,7 +40,6 @@ spring-boot-plugin = { module = "org.springframework.boot:spring-boot-gradle-plu
 
 [bundles]
 spring-boot-starters = [
-    "spring-boot-starter-actuator",
     "spring-boot-starter-webflux",
     "spring-boot-starter-quartz"
 ]
