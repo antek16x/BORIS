@@ -1,4 +1,4 @@
-package org.boris.validator;
+package org.boris.validation;
 
 import java.util.HashMap;
 import java.util.Locale;

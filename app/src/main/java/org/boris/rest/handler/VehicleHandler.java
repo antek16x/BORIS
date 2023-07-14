@@ -8,7 +8,7 @@ import org.boris.rest.exceptions.InvalidBodyException;
 import org.boris.rest.exceptions.InvalidCountryCodeException;
 import org.boris.rest.exceptions.VehicleAlreadyExistsException;
 import org.boris.services.VehicleService;
-import org.boris.validator.VehicleValidator;
+import org.boris.validation.VehicleValidator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;

@@ -11,7 +11,7 @@ import org.axonframework.modelling.command.CommandHandlerInterceptor;
 import org.axonframework.spring.stereotype.Aggregate;
 import org.boris.core_api.*;
 import org.boris.services.VehiclePositionService;
-import org.boris.validator.VehicleValidator;
+import org.boris.validation.VehicleValidator;
 import org.boris.vehicle.exceptions.InvalidTelematicsUpdateException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
