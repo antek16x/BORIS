@@ -9,5 +9,6 @@ import java.util.List;
 
 @Repository
 public interface BorderCrossingRepository extends JpaRepository<BorderCrossing, Long> {
+    BorderCrossing findByVehicleReg(String vehicleReg);
     List<BorderCrossing> findByVehicleRegAndTimestampBetween(String vehicleReg, Instant startingDate, Instant endDate);
 }
