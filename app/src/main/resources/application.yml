@@ -6,6 +6,7 @@ server:
 springdoc:
   swagger-ui:
     path: /docs/index.html
+
 spring:
   webflux:
     client:
