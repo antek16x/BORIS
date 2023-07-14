@@ -3,7 +3,6 @@ package org.boris.services;
 import org.boris.core_api.Position;
 import org.boris.core_api.VehiclePositionServiceResponse;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.DependsOn;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
