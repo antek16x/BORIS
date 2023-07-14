@@ -186,7 +186,7 @@ public class Vehicle {
 
     private void scheduleDeadline(DeadlineManager deadlineManager, VehicleId vehicleReg, String deadlineName) {
         deadlineManager.schedule(
-                Duration.ofMinutes(1),
+                Duration.ofMinutes(5),
                 deadlineName,
                 vehicleReg.toString(),
                 new AggregateScopeDescriptor("Vehicle", vehicleReg.toString())
@@ -239,5 +239,25 @@ public class Vehicle {
         } else {
             return vehicleValidator.getCountryCodeFromCoordinates(coordinate.getLongitude(), coordinate.getLatitude());
         }
+    }
+
+    public VehicleId getVehicleReg() {
+        return vehicleReg;
+    }
+
+    public Boolean getTelematics() {
+        return telematics;
+    }
+
+    public String getLastKnownCountry() {
+        return lastKnownCountry;
+    }
+
+    public String getCountryOut() {
+        return countryOut;
+    }
+
+    public Instant getCrossingBorderTimestamp() {
+        return crossingBorderTimestamp;
     }
 }
