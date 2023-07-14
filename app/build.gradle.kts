@@ -24,6 +24,7 @@ dependencies {
 
     testImplementation(libs.axon.spring.boot.starter)
     testImplementation(libs.spring.boot.starter.test)
+    testImplementation(libs.spring.boot.starter.data.jpa)
     testImplementation(libs.reactor.test)
     testImplementation(libs.okhhtp3)
     testImplementation(libs.jackson.datatype)

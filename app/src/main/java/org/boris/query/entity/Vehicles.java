@@ -6,6 +6,7 @@ import java.util.Objects;
 @Entity
 public class Vehicles {
 
+    @SuppressWarnings("unused")
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "IdentityId")
@@ -25,6 +26,7 @@ public class Vehicles {
         this.vehicleReg = vehicleReg;
     }
 
+    @SuppressWarnings("unused")
     public Boolean getTelematics() {
         return telematics;
     }

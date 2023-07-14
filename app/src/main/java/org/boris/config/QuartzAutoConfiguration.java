@@ -9,6 +9,7 @@ import org.springframework.context.annotation.Configuration;
 import org.quartz.Scheduler;
 
 @Configuration
+@SuppressWarnings("unused")
 public class QuartzAutoConfiguration {
     @Bean
     public QuartzDeadlineManager deadlineManager(

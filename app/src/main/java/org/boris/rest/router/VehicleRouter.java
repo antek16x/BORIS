@@ -23,6 +23,7 @@ import static org.springframework.web.reactive.function.server.RouterFunctions.r
 
 @Configuration
 @OpenAPIDefinition(info = @Info(title = "Vehicle API", version = "v1"))
+@SuppressWarnings("unused")
 public class VehicleRouter {
 
     public static final String VEHICLE_URL = "/api/v1/vehicle";

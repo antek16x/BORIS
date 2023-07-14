@@ -1,0 +1,14 @@
+spring:
+  datasource:
+    jdbc-url: jdbc:h2:mem:db;DB_CLOSE_DELAY=-1
+    username: boris
+    password:
+    driverClassName: org.h2.Driver
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
+    show-sql: false
+    format-sql: false
+    generate-ddl: true
+    hibernate:
+      hbm2ddl:
+        auto: create-drop

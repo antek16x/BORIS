@@ -34,8 +34,6 @@ import java.util.List;
 public class VehiclePositionServiceTest {
 
 
-    private WebClient mockWebClient;
-
     private MockWebServer mockWebServer;
     private ObjectMapper objectMapper;
 
@@ -71,7 +69,7 @@ public class VehiclePositionServiceTest {
                 .setBody(objectMapper.writeValueAsString(response)));
 
         HttpUrl url = mockWebServer.url("");
-        mockWebClient = WebClient.builder()
+        WebClient mockWebClient = WebClient.builder()
                 .baseUrl(url.toString())
                 .build();
 

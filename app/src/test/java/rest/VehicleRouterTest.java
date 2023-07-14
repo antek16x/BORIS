@@ -40,6 +40,7 @@ import static org.mockito.Mockito.*;
         VehicleRouter.class,
         VehicleHandler.class
 })
+@SuppressWarnings("unused")
 public class VehicleRouterTest {
 
     private static final VehicleId VEHICLE_ID = new VehicleId("REG_TEST");
@@ -72,13 +73,7 @@ public class VehicleRouterTest {
     private VehicleService vehicleService;
 
     @MockBean
-    private VehiclesRepository vehiclesRepository;
-
-    @MockBean
     private VehicleValidator vehicleValidator;
-
-    @MockBean
-    private BorderCrossingRepository borderCrossingRepository;
 
     @Test
     void addVehicleInvalidBodyTest() {

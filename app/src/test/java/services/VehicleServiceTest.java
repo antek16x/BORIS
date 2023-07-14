@@ -33,8 +33,8 @@ public class VehicleServiceTest {
     private BorderCrossingRepository borderCrossingRepository;
 
     private static final String vehicleReg = "REG_TEST";
-    private static Instant startingDate = Instant.parse("2023-07-01T00:00:00Z");
-    private static Instant endDate = Instant.parse("2023-07-31T23:59:59Z");
+    private static final Instant startingDate = Instant.parse("2023-07-01T00:00:00Z");
+    private static final Instant endDate = Instant.parse("2023-07-31T23:59:59Z");
 
     @Test
     void checkIfVehicleExistsExistingVehicleTest() {

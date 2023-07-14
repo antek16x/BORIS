@@ -1,15 +1,16 @@
-package org.boris.config;
+package query;
 
+import com.mchange.v2.c3p0.DriverManagerDataSource;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
+import org.boris.config.JpaProperties;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Primary;
-import org.springframework.context.annotation.Profile;
+import org.springframework.boot.test.context.TestConfiguration;
+import org.springframework.context.annotation.*;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.JpaVendorAdapter;
@@ -21,47 +22,52 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 import javax.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
 
-@Configuration
+@TestConfiguration
 @EnableTransactionManagement
 @EnableJpaRepositories(
-        entityManagerFactoryRef = "postgresEntityManager",
-        transactionManagerRef = "postgresTransactionManager",
+        entityManagerFactoryRef = "testEntityManager",
+        transactionManagerRef = "testTransactionManager",
         basePackages = {
                 "org.axonframework.eventhandling.tokenstore",
                 "org.boris.query.repository"
         }
 )
-@Profile("prod")
 @EntityScan("org.boris.query.entity")
+@Profile("test")
 @SuppressWarnings("unused")
-public class PostgresConfiguration {
+public class DBTestConfiguration {
 
     @Primary
-    @Bean(name = "postgresHikariConfig")
-    @ConfigurationProperties(prefix = "spring.datasource.postgres")
-    public HikariConfig hikariConfig() {
-        return new HikariConfig();
+    @Bean(name = "testDataSource")
+    public DataSource testDataSource(
+            @Value("${spring.datasource.driverClassName}") String className,
+            @Value("${spring.datasource.jdbc-url}") String url,
+            @Value("${spring.datasource.username}") String username,
+            @Value("${spring.datasource.password}") String password
+    ) {
+        DriverManagerDataSource dataSource = new DriverManagerDataSource();
+
+        dataSource.setDriverClass(className);
+        dataSource.setUser(username);
+        dataSource.setPassword(password);
+        dataSource.setJdbcUrl(url);
+
+        return dataSource;
     }
 
     @Primary
-    @Bean(name = "postgresDataSource")
-    public DataSource postgresDataSource(@Qualifier("postgresHikariConfig") HikariConfig hikariConfig) {
-        return new HikariDataSource(hikariConfig);
-    }
-
-    @Primary
-    @Bean(name = "postgresEntityManager")
-    public LocalContainerEntityManagerFactoryBean postgresEntityManager(
-            @Qualifier("postgresDataSource") DataSource postgresDataSource,
-            @Value("${spring.jpa.postgres.database-platform}") String dialect,
-            @Value("${spring.jpa.postgres.show-sql}") String showSQL,
-            @Value("${spring.jpa.postgres.format-sql}") String formatSQL,
-            @Value("${spring.jpa.postgres.generate-ddl}") String generateDDL,
-            @Value("${spring.jpa.postgres.hibernate.hbm2ddl.auto}") String hbm2DDLAuto
+    @Bean(name = "testEntityManager")
+    public LocalContainerEntityManagerFactoryBean testEntityManager(
+            @Qualifier("testDataSource") DataSource testDataSource,
+            @Value("${spring.jpa.database-platform}") String dialect,
+            @Value("${spring.jpa.show-sql}") String showSQL,
+            @Value("${spring.jpa.format-sql}") String formatSQL,
+            @Value("${spring.jpa.generate-ddl}") String generateDDL,
+            @Value("${spring.jpa.hibernate.hbm2ddl.auto}") String hbm2DDLAuto
     ) {
         LocalContainerEntityManagerFactoryBean entityManagerFactoryBean = new LocalContainerEntityManagerFactoryBean();
         JpaVendorAdapter jpaVendorAdapter = new HibernateJpaVendorAdapter();
-        entityManagerFactoryBean.setDataSource(postgresDataSource);
+        entityManagerFactoryBean.setDataSource(testDataSource);
         entityManagerFactoryBean.setPackagesToScan(
                 "org.axonframework.eventhandling.tokenstore",
                 "org.boris.query.entity"
@@ -73,8 +79,8 @@ public class PostgresConfiguration {
     }
 
     @Primary
-    @Bean(name = "postgresTransactionManager")
-    public PlatformTransactionManager postgresTransactionManager(@Qualifier("postgresEntityManager") EntityManagerFactory entityManagerFactory) {
+    @Bean(name = "testTransactionManager")
+    public PlatformTransactionManager testTransactionManager(@Qualifier("testEntityManager") EntityManagerFactory entityManagerFactory) {
         return new JpaTransactionManager(entityManagerFactory);
     }
 }

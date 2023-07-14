@@ -15,6 +15,7 @@ import javax.net.ssl.SSLException;
 
 
 @Configuration
+@SuppressWarnings("unused")
 public class WebClientAutoConfiguration {
 
     @Bean

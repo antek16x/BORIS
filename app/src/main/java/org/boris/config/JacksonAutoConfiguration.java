@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import static com.fasterxml.jackson.module.kotlin.ExtensionsKt.registerKotlinModule;
 
+@SuppressWarnings("unused")
 public class JacksonAutoConfiguration {
 
     @Autowired

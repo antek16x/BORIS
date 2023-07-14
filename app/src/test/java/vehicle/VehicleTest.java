@@ -32,8 +32,10 @@ public class VehicleTest {
     private AggregateTestFixture<Vehicle> fixture;
 
     @MockBean
+    @SuppressWarnings("unused")
     private VehiclePositionService vehiclePositionService;
     @MockBean
+    @SuppressWarnings("unused")
     private VehicleValidator vehicleValidator;
     private VehicleId vehicleId;
     private LocalDate currentDate;
