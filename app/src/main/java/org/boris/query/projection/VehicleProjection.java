@@ -35,11 +35,13 @@ public class VehicleProjection {
     public void on(VehicleTelematicsUpdatedEvent event) {
         final String vehicleId = event.getVehicleReg().getIdentifier();
 
-        var vehicleOpt = vehiclesRepository.findByVehicleReg(vehicleId);
-        var view = vehicleOpt.orElseGet(() -> {
+        var viewOpt = vehiclesRepository.findByVehicleReg(vehicleId);
+        var view = viewOpt.orElseGet(() -> {
             LOGGER.warn("Missing vehicle [{}] record, creating new one", vehicleId);
             return createVehiclesView(vehicleId, event.getTelematicsEnabled());
         });
+        view.setTelematics(event.getTelematicsEnabled());
+
         vehiclesRepository.save(view);
         LOGGER.info("Telematics for vehicle [{}] switched to {}", vehicleId, event.getTelematicsEnabled());
     }

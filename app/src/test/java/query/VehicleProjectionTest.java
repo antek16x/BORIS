@@ -79,6 +79,7 @@ public class VehicleProjectionTest {
 
     private void insertVehicle(String vehicleId) {
         var createdVehicle = new Vehicles();
+        createdVehicle.setVehicleReg(vehicleId);
         createdVehicle.setTelematics(false);
         vehiclesRepository.save(createdVehicle);
     }

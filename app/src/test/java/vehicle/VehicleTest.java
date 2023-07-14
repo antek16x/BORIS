@@ -302,7 +302,6 @@ public class VehicleTest {
         ));
         doReturn(serviceResponse).when(vehiclePositionService).getVehiclePosition(vehicleId.getIdentifier());
         doReturn("SEN").when(vehicleValidator).getCountryCodeFromCoordinates(any(Double.class), any(Double.class));
-        ;
 
         this.fixture.givenCurrentTime(currentDate.atStartOfDay(ZoneId.systemDefault()).toInstant())
                 .andGivenCommands(
@@ -331,7 +330,6 @@ public class VehicleTest {
 
         verify(vehiclePositionService, times(1)).getVehiclePosition(vehicleId.getIdentifier());
         verify(vehicleValidator, times(1)).getCountryCodeFromCoordinates(any(Double.class), any(Double.class));
-        ;
     }
 
     @Test
@@ -452,6 +450,5 @@ public class VehicleTest {
 
         verify(vehiclePositionService, times(2)).getVehiclePosition(vehicleId.getIdentifier());
         verify(vehicleValidator, times(0)).getCountryCodeFromCoordinates(any(Double.class), any(Double.class));
-        ;
     }
 }

@@ -18,6 +18,9 @@ public class Vehicles {
     @Column(name = "TelematiceEnabled")
     Boolean telematics;
 
+    public Vehicles() {
+    }
+
     public String getVehicleReg() {
         return vehicleReg;
     }
