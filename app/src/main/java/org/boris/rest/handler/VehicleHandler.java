@@ -13,6 +13,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.server.ServerRequest;
 import org.springframework.web.reactive.function.server.ServerResponse;
 import reactor.core.publisher.Flux;
@@ -22,6 +23,7 @@ import javax.validation.constraints.NotNull;
 import java.time.Instant;
 import java.time.format.DateTimeParseException;
 
+@Component
 public class VehicleHandler {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(VehicleHandler.class);
@@ -87,7 +89,8 @@ public class VehicleHandler {
 
     public Mono<ServerResponse> updateVehiclePosition(ServerRequest request) {
         var vehicleId = new VehicleId(request.pathVariable("vehicleReg"));
-        var dtoMono = request.bodyToMono(UpdateVehiclePositionDTO.class);
+        var dtoMono = request.bodyToMono(UpdateVehiclePositionDTO.class)
+                .onErrorMap(throwable -> new InvalidBodyException(throwable.getMessage()));
 
         return dtoMono
                 .flatMap(dto -> {
@@ -135,9 +138,13 @@ public class VehicleHandler {
     }
 
     public Mono<ServerResponse> generateBorderCrossingReport(ServerRequest request) {
-        var vehicleId = request.pathVariable("vehicleReg");
+        var vehicleId = request.queryParam("vehicleReg").orElse("");
         var startingDateStr = request.queryParam("startingDate").orElse("");
         var endDateStr = request.queryParam("endDate").orElse("");
+
+        if (vehicleId.isEmpty() || vehicleId.isBlank()) {
+            return ServerResponse.badRequest().build();
+        }
 
         try {
             var startingDate = Instant.parse(startingDateStr);
@@ -193,9 +200,15 @@ public class VehicleHandler {
 
         if (throwable instanceof VehicleAlreadyExistsException) {
             return ServerResponse
-                    .badRequest()
+                    .status(HttpStatus.CONFLICT)
                     .contentType(MediaType.TEXT_PLAIN)
                     .bodyValue("Vehicle with entered registration plate already exists");
+        }
+
+        if (throwable instanceof InvalidBodyException) {
+            return ServerResponse
+                    .badRequest()
+                    .build();
         }
         return ServerResponse.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
     }

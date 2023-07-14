@@ -27,7 +27,7 @@ dependencies {
     testImplementation(libs.reactor.test)
     testImplementation(libs.okhhtp3)
     testImplementation(libs.jackson.datatype)
-
+    testImplementation(libs.h2)
 }
 
 application {

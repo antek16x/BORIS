@@ -9,11 +9,8 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
-import org.axonframework.extensions.reactor.commandhandling.gateway.ReactorCommandGateway;
 import org.boris.rest.*;
 import org.boris.rest.handler.VehicleHandler;
-import org.boris.services.VehicleService;
-import org.boris.validation.VehicleValidator;
 import org.springdoc.core.annotations.RouterOperation;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -28,20 +25,11 @@ import static org.springframework.web.reactive.function.server.RouterFunctions.r
 @OpenAPIDefinition(info = @Info(title = "Vehicle API", version = "v1"))
 public class VehicleRouter {
 
-    @Bean
-    public VehicleHandler vehicleHandler(
-            ReactorCommandGateway commandGateway,
-            VehicleService vehicleService,
-            VehicleValidator vehicleValidator
-    ) {
-        return new VehicleHandler(commandGateway, vehicleService, vehicleValidator);
-    }
-
     public static final String VEHICLE_URL = "/api/v1/vehicle";
     public static final String VEHICLE_TELEMETICS_SWITCH = VEHICLE_URL + "/{vehicleReg}/telematics";
     public static final String VEHICLE_POSITION_UPDATE_MANUALLY = VEHICLE_URL + "/{vehicleReg}/update-manually";
     public static final String VEHICLE_GET_POSITION = VEHICLE_URL + "/{vehicleReg}/get-position";
-    public static final String VEHICLE_BORDER_CROSSING_REPORT = VEHICLE_URL + "/{vehicleReg}/generate-report";
+    public static final String VEHICLE_BORDER_CROSSING_REPORT = VEHICLE_URL + "/generate-report";
 
     @Bean
     @RouterOperation(
@@ -161,7 +149,8 @@ public class VehicleRouter {
                     summary = "Generate vehicle border crossing report",
                     parameters = {
                             @Parameter(
-                                    in = ParameterIn.PATH, name = "vehicleReg",
+                                    in = ParameterIn.QUERY, name = "vehicleReg",
+                                    required = true,
                                     description = "Vehicle registration plate"
                             ),
                             @Parameter(

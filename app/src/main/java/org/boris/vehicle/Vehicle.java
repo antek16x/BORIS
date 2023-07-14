@@ -79,11 +79,6 @@ public class Vehicle {
         });
     }
 
-    @CommandHandlerInterceptor
-    public void intercept(UpdateVehiclePositionCommand command, InterceptorChain interceptorChain) {
-        //jeżeli deadline z potwierdzeniem jest aktywny nie można zaktualizować pozycji pojadu
-    }
-
     @CommandHandler
     public void on(UpdateVehiclePositionCommand command, VehiclePositionService service, VehicleValidator vehicleValidator, DeadlineManager deadlineManager) {
         if (command.isUpdateManually()) {
