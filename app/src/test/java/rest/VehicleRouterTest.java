@@ -6,8 +6,6 @@ import org.boris.core_api.AddNewVehicleCommand;
 import org.boris.core_api.UpdateVehiclePositionCommand;
 import org.boris.core_api.UpdateVehicleTelematicsCommand;
 import org.boris.core_api.VehicleId;
-import org.boris.query.repository.BorderCrossingRepository;
-import org.boris.query.repository.VehiclesRepository;
 import org.boris.rest.*;
 import org.boris.rest.handler.VehicleHandler;
 import org.boris.rest.router.VehicleRouter;
