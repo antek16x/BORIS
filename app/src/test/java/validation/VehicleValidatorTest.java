@@ -1,6 +1,7 @@
 package validation;
 
 import org.boris.validation.VehicleValidator;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -11,17 +12,24 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class VehicleValidatorTest {
 
+    private VehicleValidator validator;
+
+    @BeforeEach
+    void setUp() {
+        this.validator = new VehicleValidator();
+    }
+
     @ParameterizedTest
     @MethodSource("provideCountryCode")
     void isValidCountryCodeTest(String countryCode, Boolean expected) {
-        var actual = VehicleValidator.isValidCountryCode(countryCode);
+        var actual = validator.isValidCountryCode(countryCode);
         assertEquals(expected, actual);
     }
 
     @ParameterizedTest
     @MethodSource("provideCoordinates")
     void getCountryCodeFromCoordinatesTest(Double longitude, Double latitude, String expected) {
-        var actual = VehicleValidator.getCountryCodeFromCoordinates(longitude, latitude);
+        var actual = validator.getCountryCodeFromCoordinates(longitude, latitude);
         assertEquals(expected, actual);
     }
 

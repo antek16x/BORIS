@@ -13,6 +13,7 @@ import org.axonframework.extensions.reactor.commandhandling.gateway.ReactorComma
 import org.boris.rest.*;
 import org.boris.rest.handler.VehicleHandler;
 import org.boris.services.VehicleService;
+import org.boris.validation.VehicleValidator;
 import org.springdoc.core.annotations.RouterOperation;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -28,8 +29,12 @@ import static org.springframework.web.reactive.function.server.RouterFunctions.r
 public class VehicleRouter {
 
     @Bean
-    public VehicleHandler vehicleHandler(ReactorCommandGateway commandGateway, VehicleService vehicleService) {
-        return new VehicleHandler(commandGateway, vehicleService);
+    public VehicleHandler vehicleHandler(
+            ReactorCommandGateway commandGateway,
+            VehicleService vehicleService,
+            VehicleValidator vehicleValidator
+    ) {
+        return new VehicleHandler(commandGateway, vehicleService, vehicleValidator);
     }
 
     public static final String VEHICLE_URL = "/api/v1/vehicle";

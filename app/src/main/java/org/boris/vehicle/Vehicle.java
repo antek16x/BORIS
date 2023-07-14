@@ -79,8 +79,13 @@ public class Vehicle {
         });
     }
 
+    @CommandHandlerInterceptor
+    public void intercept(UpdateVehiclePositionCommand command, InterceptorChain interceptorChain) {
+        //jeżeli deadline z potwierdzeniem jest aktywny nie można zaktualizować pozycji pojadu
+    }
+
     @CommandHandler
-    public void on(UpdateVehiclePositionCommand command, VehiclePositionService service, DeadlineManager deadlineManager) {
+    public void on(UpdateVehiclePositionCommand command, VehiclePositionService service, VehicleValidator vehicleValidator, DeadlineManager deadlineManager) {
         if (command.isUpdateManually()) {
             LOGGER.info("Manually update position of vehicle with registration plate [{}]", command.getVehicleReg());
             if (!Objects.equals(command.getCountry(), lastKnownCountry)) {
@@ -107,7 +112,7 @@ public class Vehicle {
             }
         } else {
             cancelGetVehiclePositionDeadline(deadlineManager);
-            processServiceResponse(service, deadlineManager);
+            processServiceResponse(service, vehicleValidator, deadlineManager);
         }
     }
 
@@ -143,18 +148,18 @@ public class Vehicle {
     }
 
     @DeadlineHandler(deadlineName = GET_VEHICLE_POSITION_DEADLINE)
-    public void on(String payload, VehiclePositionService service, DeadlineManager deadlineManager) {
+    public void on(String payload, VehiclePositionService service, VehicleValidator vehicleValidator, DeadlineManager deadlineManager) {
         LOGGER.info("Deadline for getting vehicle position passed");
-        processServiceResponse(service, deadlineManager);
+        processServiceResponse(service, vehicleValidator, deadlineManager);
     }
 
     @DeadlineHandler(deadlineName = CONFIRM_BORDER_CROSSING_DEADLINE)
-    public void onConfirmationDeadline(String payload, VehiclePositionService service, DeadlineManager deadlineManager) {
+    public void onConfirmationDeadline(String payload, VehiclePositionService service, VehicleValidator vehicleValidator, DeadlineManager deadlineManager) {
         LOGGER.info("Deadline for crossing border confirmation passed, trying to confirm");
         var serviceResponse = service.getVehiclePosition(this.vehicleReg.getIdentifier());
         serviceResponse.subscribe(positions -> {
             var position = positions.get(0);
-            position.setCountry(getCountryCodeIfInvalid(position.getCountry(), position.getCoordinate()));
+            position.setCountry(getCountryCodeIfInvalid(position.getCountry(), position.getCoordinate(), vehicleValidator));
             if (!position.getCountry().equals(countryOut)) {
                 LOGGER.info("Crossing border for vehicle [{}] has been confirmed", this.vehicleReg.getIdentifier());
                 apply(new CrossingBorderConfirmedEvent(
@@ -199,12 +204,12 @@ public class Vehicle {
                 new AggregateScopeDescriptor("Vehicle", this.vehicleReg.toString()));
     }
 
-    private void processServiceResponse(VehiclePositionService service, DeadlineManager deadlineManager) {
+    private void processServiceResponse(VehiclePositionService service, VehicleValidator vehicleValidator, DeadlineManager deadlineManager) {
         LOGGER.info("Update position of vehicle with registration plate [{}] by service", this.vehicleReg);
         var serviceResponse = service.getVehiclePosition(this.vehicleReg.getIdentifier());
         serviceResponse.subscribe(positions -> {
             var position = positions.get(0);
-            position.setCountry(getCountryCodeIfInvalid(position.getCountry(), position.getCoordinate()));
+            position.setCountry(getCountryCodeIfInvalid(position.getCountry(), position.getCoordinate(), vehicleValidator));
             if (!Objects.equals(position.getCountry(), lastKnownCountry)) {
                 LOGGER.info("Vehicle with registration plate [{}] crossed the border, confirmation required", this.vehicleReg);
                 apply(new VehicleCrossedBorderEvent(
@@ -233,11 +238,11 @@ public class Vehicle {
         });
     }
 
-    private String getCountryCodeIfInvalid(String countryCode, Coordinate coordinate) {
-        if (VehicleValidator.isValidCountryCode(countryCode)) {
+    private String getCountryCodeIfInvalid(String countryCode, Coordinate coordinate, VehicleValidator vehicleValidator) {
+        if (vehicleValidator.isValidCountryCode(countryCode)) {
             return countryCode;
         } else {
-            return VehicleValidator.getCountryCodeFromCoordinates(coordinate.getLongitude(), coordinate.getLatitude());
+            return vehicleValidator.getCountryCodeFromCoordinates(coordinate.getLongitude(), coordinate.getLatitude());
         }
     }
 }

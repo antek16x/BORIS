@@ -28,10 +28,16 @@ public class VehicleHandler {
 
     private final ReactorCommandGateway commandGateway;
     private final VehicleService vehicleService;
+    private final VehicleValidator vehicleValidator;
 
-    public VehicleHandler(ReactorCommandGateway commandGateway, VehicleService vehicleService) {
+    public VehicleHandler(
+            ReactorCommandGateway commandGateway,
+            VehicleService vehicleService,
+            VehicleValidator vehicleValidator
+    ) {
         this.commandGateway = commandGateway;
         this.vehicleService = vehicleService;
+        this.vehicleValidator = vehicleValidator;
     }
 
     @NotNull
@@ -86,7 +92,7 @@ public class VehicleHandler {
         return dtoMono
                 .flatMap(dto -> {
                     boolean allCountriesValid = dto.getPositions().stream()
-                            .allMatch(position -> VehicleValidator.isValidCountryCode(position.getCountry()));
+                            .allMatch(position -> vehicleValidator.isValidCountryCode(position.getCountry()));
 
                     if (!allCountriesValid) {
                         return Mono.error(new InvalidCountryCodeException("Invalid country code"));

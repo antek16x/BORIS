@@ -7,14 +7,16 @@ import io.github.coordinates2country.Coordinates2Country;
 import org.boris.vehicle.exceptions.CountryCodeNotFound;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
 
+@Component
 public class VehicleValidator {
 
     private final static Logger LOGGER = LoggerFactory.getLogger(VehicleValidator.class);
 
     private static final Map<String, String> isoMap = createISOMap();
 
-    public static String getCountryCodeFromCoordinates(Double longitude, Double latitude) {
+    public String getCountryCodeFromCoordinates(Double longitude, Double latitude) {
         var countryName = Coordinates2Country.country(latitude, longitude);
         try {
             return getCountryISO3Code(countryName);
@@ -24,7 +26,7 @@ public class VehicleValidator {
         }
     }
 
-    public static boolean isValidCountryCode(String countryCode) {
+    public boolean isValidCountryCode(String countryCode) {
         if (countryCode == null || countryCode.isEmpty()) {
             return false;
         }
