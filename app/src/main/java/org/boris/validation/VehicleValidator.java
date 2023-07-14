@@ -18,7 +18,7 @@ public class VehicleValidator {
         var countryName = Coordinates2Country.country(latitude, longitude);
         try {
             return getCountryISO3Code(countryName);
-        } catch (CountryCodeNotFound exception) {
+        } catch (Exception exception) {
             LOGGER.info("Can't find country code for country {}", countryName);
             return "";
         }
