@@ -19,7 +19,7 @@ data class VehiclePositionServiceResponse(
 
 data class Position(
     val coordinate: Coordinate,
-    val country: String,
+    var country: String,
     val timestamp: Instant
 )
 

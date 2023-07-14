@@ -11,6 +11,7 @@ import org.axonframework.modelling.command.CommandHandlerInterceptor;
 import org.axonframework.spring.stereotype.Aggregate;
 import org.boris.core_api.*;
 import org.boris.services.VehiclePositionService;
+import org.boris.validator.VehicleValidator;
 import org.boris.vehicle.exceptions.InvalidTelematicsUpdateException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -104,8 +105,7 @@ public class Vehicle {
                         Objects.requireNonNull(command.getTimestamp())
                 ));
             }
-        }
-        else {
+        } else {
             cancelGetVehiclePositionDeadline(deadlineManager);
             processServiceResponse(service, deadlineManager);
         }
@@ -154,6 +154,7 @@ public class Vehicle {
         var serviceResponse = service.getVehiclePosition(this.vehicleReg.getIdentifier());
         serviceResponse.subscribe(positions -> {
             var position = positions.get(0);
+            position.setCountry(getCountryCodeIfInvalid(position.getCountry(), position.getCoordinate()));
             if (!position.getCountry().equals(countryOut)) {
                 LOGGER.info("Crossing border for vehicle [{}] has been confirmed", this.vehicleReg.getIdentifier());
                 apply(new CrossingBorderConfirmedEvent(
@@ -202,33 +203,41 @@ public class Vehicle {
         LOGGER.info("Update position of vehicle with registration plate [{}] by service", this.vehicleReg);
         var serviceResponse = service.getVehiclePosition(this.vehicleReg.getIdentifier());
         serviceResponse.subscribe(positions -> {
-            for (var position : positions) {
-                if (!Objects.equals(position.getCountry(), lastKnownCountry)) {
-                    LOGGER.info("Vehicle with registration plate [{}] crossed the border, confirmation required", this.vehicleReg);
-                    apply(new VehicleCrossedBorderEvent(
-                            this.vehicleReg,
-                            this.lastKnownCountry,
-                            position.getTimestamp()
-                    )).andThenApply(() -> new LastVehiclePositionUpdatedEvent(
-                            this.vehicleReg,
-                            position.getCoordinate(),
-                            position.getCountry(),
-                            position.getTimestamp()
-                    )).andThen(() -> scheduleDeadline(deadlineManager, this.vehicleReg, CONFIRM_BORDER_CROSSING_DEADLINE));
-                } else {
-                    LOGGER.info("Vehicle has not crossed the border");
-                    apply(new LastVehiclePositionUpdatedEvent(
-                            this.vehicleReg,
-                            position.getCoordinate(),
-                            position.getCountry(),
-                            position.getTimestamp()
-                    )).andThen(() -> {
-                        if (this.telematics) {
-                            scheduleDeadline(deadlineManager, this.vehicleReg, GET_VEHICLE_POSITION_DEADLINE);
-                        }
-                    });
-                }
+            var position = positions.get(0);
+            position.setCountry(getCountryCodeIfInvalid(position.getCountry(), position.getCoordinate()));
+            if (!Objects.equals(position.getCountry(), lastKnownCountry)) {
+                LOGGER.info("Vehicle with registration plate [{}] crossed the border, confirmation required", this.vehicleReg);
+                apply(new VehicleCrossedBorderEvent(
+                        this.vehicleReg,
+                        this.lastKnownCountry,
+                        position.getTimestamp()
+                )).andThenApply(() -> new LastVehiclePositionUpdatedEvent(
+                        this.vehicleReg,
+                        position.getCoordinate(),
+                        position.getCountry(),
+                        position.getTimestamp()
+                )).andThen(() -> scheduleDeadline(deadlineManager, this.vehicleReg, CONFIRM_BORDER_CROSSING_DEADLINE));
+            } else {
+                LOGGER.info("Vehicle has not crossed the border");
+                apply(new LastVehiclePositionUpdatedEvent(
+                        this.vehicleReg,
+                        position.getCoordinate(),
+                        position.getCountry(),
+                        position.getTimestamp()
+                )).andThen(() -> {
+                    if (this.telematics) {
+                        scheduleDeadline(deadlineManager, this.vehicleReg, GET_VEHICLE_POSITION_DEADLINE);
+                    }
+                });
             }
         });
+    }
+
+    private String getCountryCodeIfInvalid(String countryCode, Coordinate coordinate) {
+        if (VehicleValidator.isValidCountryCode(countryCode)) {
+            return countryCode;
+        } else {
+            return VehicleValidator.getCountryCodeFromCoordinates(coordinate.getLongitude(), coordinate.getLatitude());
+        }
     }
 }

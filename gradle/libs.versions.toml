@@ -34,6 +34,7 @@ h2 = { module = "com.h2database:h2" }
 micrometer-registry-prometheus = { module = "io.micrometer:micrometer-registry-prometheus" }
 postgresql = { module = "org.postgresql:postgresql" }
 c3p0 = { module = "com.mchange:c3p0", version = "0.9.5.5"}
+coordinates = { module = "io.github.coordinates2country:coordinates2country", version = "1.2" }
 
 # SPRINGDOC
 springdoc-openapi-common = { module = "org.springdoc:springdoc-openapi-common", version.ref = "springdoc"}

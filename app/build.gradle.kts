@@ -20,6 +20,7 @@ dependencies {
     implementation(libs.postgresql)
     implementation(libs.jackson.module.kotlin)
     implementation(libs.c3p0)
+    implementation(libs.coordinates)
 
     testImplementation(libs.axon.spring.boot.starter)
     testImplementation(libs.spring.boot.starter.test)
