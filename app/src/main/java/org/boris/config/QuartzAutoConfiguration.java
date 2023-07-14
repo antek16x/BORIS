@@ -10,7 +10,6 @@ import org.quartz.Scheduler;
 import org.springframework.context.annotation.Profile;
 
 @Configuration
-@Profile("prod")
 public class QuartzAutoConfiguration {
     @Bean
     public QuartzDeadlineManager deadlineManager(

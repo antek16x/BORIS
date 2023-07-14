@@ -9,7 +9,7 @@ services:
     environment:
       - AXONSERVER_HOSTNAME=localhost
     hostname: localhost
-    container_name: my-axon-server
+    container_name: boris-axon-server
     restart: always
 
   postgres:

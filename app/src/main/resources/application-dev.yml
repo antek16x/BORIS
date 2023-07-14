@@ -1,0 +1,41 @@
+spring:
+  quartz:
+    job-store-type: jdbc
+    jdbc:
+      initialize-schema: always
+      schema: classpath:quartz_jdbc_store.sql
+    properties:
+      org:
+        quartz:
+          dataSource:
+            h2:
+              driver: org.h2.Driver
+              URL: jdbc:h2:mem:testdb
+              user: sa
+              password: password
+          jobStore:
+            class: org.quartz.impl.jdbcjobstore.JobStoreTX
+            driverDelegateClass: org.quartz.impl.jdbcjobstore.StdJDBCDelegate
+            dataSource: h2
+            isClustered: true
+            misfireThreshold: 30000
+          scheduler:
+            instanceId: AUTO
+            instanceName: BorisScheduler
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
+    show-sql: false
+    format-sql: false
+    generate-ddl: true
+    hibernate:
+      ddl-auto: update
+  datasource:
+    url: jdbc:h2:mem:testdb
+    username: sa
+    password: password
+    driverClassName: org.h2.Driver
+    hikari:
+      maximum-pool-size: 100
+      connection-timeout: 30000
+      idle-timeout: 600000
+      max-lifetime: 1800000
