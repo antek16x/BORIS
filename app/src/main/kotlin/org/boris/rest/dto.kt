@@ -8,9 +8,7 @@ data class AddNewVehicleDTO(
     @get:Schema(description = "Vehicle registration plate")
     val vehicleReg: String,
     @get:Schema(description = "Telematics on/off")
-    val telematicsEnabled: Boolean?,
-    @get:Schema(description = "Initial country")
-    val initialCountry: String
+    val telematicsEnabled: Boolean?
 )
 
 @Schema(description = "Content of update vehicle telematics")

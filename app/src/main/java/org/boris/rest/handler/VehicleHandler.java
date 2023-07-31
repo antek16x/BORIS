@@ -2,8 +2,9 @@ package org.boris.rest.handler;
 
 import org.axonframework.extensions.reactor.commandhandling.gateway.ReactorCommandGateway;
 import org.boris.core_api.*;
-import org.boris.core_api.Coordinate;
-import org.boris.rest.*;
+import org.boris.rest.AddNewVehicleDTO;
+import org.boris.rest.UpdateVehiclePositionDTO;
+import org.boris.rest.UpdateVehicleTelematicsDTO;
 import org.boris.rest.exceptions.InvalidBodyException;
 import org.boris.rest.exceptions.InvalidCountryCodeException;
 import org.boris.rest.exceptions.VehicleAlreadyExistsException;
@@ -55,8 +56,7 @@ public class VehicleHandler {
                         return commandGateway.<VehicleId>send(
                                 new AddNewVehicleCommand(
                                         new VehicleId(dto.getVehicleReg().toUpperCase()),
-                                        dto.getTelematicsEnabled(),
-                                        dto.getInitialCountry()
+                                        dto.getTelematicsEnabled()
                                 )
                         ).flatMap(id -> ServerResponse.ok()
                                 .contentType(MediaType.TEXT_PLAIN)
@@ -73,14 +73,12 @@ public class VehicleHandler {
         return request
                 .bodyToMono(UpdateVehicleTelematicsDTO.class)
                 .onErrorMap(throwable -> new InvalidBodyException(throwable.getMessage()))
-                .flatMap(dto -> {
-                    return commandGateway.<VehicleId>send(
-                            new UpdateVehicleTelematicsCommand(
-                                    vehicleId,
-                                    dto.getEnabled()
-                            )
-                    );
-                }).flatMap(resp -> ServerResponse.ok()
+                .flatMap(dto -> commandGateway.<VehicleId>send(
+                        new UpdateVehicleTelematicsCommand(
+                                vehicleId,
+                                dto.getEnabled()
+                        )
+                )).flatMap(resp -> ServerResponse.ok()
                         .contentType(MediaType.TEXT_PLAIN)
                         .bodyValue(String.format("Successful change telematics status for vehicle %s", vehicleId.getIdentifier()))
                 )
@@ -104,11 +102,11 @@ public class VehicleHandler {
                     return Flux.fromIterable(dto.getPositions())
                             .flatMap(position -> {
                                 var command = new UpdateVehiclePositionCommand(
-                                    vehicleId,
-                                    true,
-                                    convertDTOToValueObject(position.getCoordinate()),
-                                    position.getCountry(),
-                                    position.getTimestamp()
+                                        vehicleId,
+                                        true,
+                                        convertDTOToValueObject(position.getCoordinate()),
+                                        position.getCountry(),
+                                        position.getTimestamp()
                                 );
                                 return commandGateway.send(command).thenReturn(position);
                             })

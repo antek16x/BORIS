@@ -52,11 +52,21 @@ public class VehicleTest {
 
     @Test
     void addNewVehicleWithTelematicsEnabledTest() {
+        var date = LocalDate.of(2023, 7, 14).atStartOfDay(ZoneId.systemDefault()).toInstant();
+        var serviceResponse = Mono.just(List.of(
+                new Position(
+                        new Coordinate(52.2297, 21.0122),
+                        "POL",
+                        date
+                )
+        ));
+        doReturn(serviceResponse).when(vehiclePositionService).getVehiclePosition(vehicleId.getIdentifier());
+        doReturn(true).when(vehicleValidator).isValidCountryCode("POL");
+
         this.fixture.givenNoPriorActivity()
                 .when(new AddNewVehicleCommand(
                         vehicleId,
-                        true,
-                        "POL"
+                        true
                 )).expectEvents(new NewVehicleAddedEvent(
                         vehicleId,
                         true,
@@ -68,6 +78,8 @@ public class VehicleTest {
                 })
                 .expectResultMessagePayload(vehicleId)
                 .expectScheduledDeadlineWithName(Duration.ofMinutes(5), GET_VEHICLE_POSITION_DEADLINE);
+
+        verify(vehiclePositionService, times(1)).getVehiclePosition(vehicleId.getIdentifier());
     }
 
     @Test
@@ -75,50 +87,81 @@ public class VehicleTest {
         this.fixture.givenNoPriorActivity()
                 .when(new AddNewVehicleCommand(
                         vehicleId,
-                        false,
-                        "POL"
+                        false
                 )).expectEvents(new NewVehicleAddedEvent(
                         vehicleId,
                         false,
-                        "POL"
+                        null
                 )).expectState(aggregate -> {
                     Assertions.assertEquals(vehicleId, aggregate.getVehicleReg());
                     Assertions.assertEquals(false, aggregate.getTelematics());
-                    Assertions.assertEquals("POL", aggregate.getLastKnownCountry());
+                    Assertions.assertNull(aggregate.getLastKnownCountry());
                 })
                 .expectResultMessagePayload(vehicleId)
                 .expectNoScheduledDeadlines();
+
+        verify(vehiclePositionService, times(0)).getVehiclePosition(vehicleId.getIdentifier());
     }
 
     @Test
     void updateVehicleTelematicsEnableTelematicsTest() {
+        var date = LocalDate.of(2023, 7, 14).atStartOfDay(ZoneId.systemDefault()).toInstant();
+        var serviceResponse = Mono.just(List.of(
+                new Position(
+                        new Coordinate(52.2297, 21.0122),
+                        "POL",
+                        date
+                )
+        ));
+        doReturn(serviceResponse).when(vehiclePositionService).getVehiclePosition(vehicleId.getIdentifier());
+        doReturn(true).when(vehicleValidator).isValidCountryCode("POL");
+
         this.fixture.givenCurrentTime(currentDate.atStartOfDay(ZoneId.systemDefault()).toInstant())
                 .andGivenCommands(
                         new AddNewVehicleCommand(
                                 vehicleId,
-                                false,
-                                "POL"
+                                false
                         )
                 )
                 .when(new UpdateVehicleTelematicsCommand(vehicleId, true))
-                .expectEvents(new VehicleTelematicsUpdatedEvent(vehicleId, true))
-                .expectState(aggregate -> Assertions.assertEquals(true, aggregate.getTelematics()))
+                .expectEvents(
+                        new VehicleTelematicsUpdatedEvent(vehicleId, true),
+                        new VehicleInitialCountryUpdatedEvent(vehicleId, "POL")
+                )
+                .expectState(aggregate -> {
+                    Assertions.assertEquals(true, aggregate.getTelematics());
+                    Assertions.assertEquals("POL", aggregate.getLastKnownCountry());
+                })
                 .expectScheduledDeadlineWithName(Duration.ofMinutes(5), GET_VEHICLE_POSITION_DEADLINE);
+
+        verify(vehiclePositionService, times(1)).getVehiclePosition(vehicleId.getIdentifier());
     }
 
     @Test
     void updateVehicleTelematicsDisableTelematicsTest() {
+        var date = LocalDate.of(2023, 7, 14).atStartOfDay(ZoneId.systemDefault()).toInstant();
+        var serviceResponse = Mono.just(List.of(
+                new Position(
+                        new Coordinate(52.2297, 21.0122),
+                        "POL",
+                        date
+                )
+        ));
+        doReturn(serviceResponse).when(vehiclePositionService).getVehiclePosition(vehicleId.getIdentifier());
+        doReturn(true).when(vehicleValidator).isValidCountryCode("POL");
+
         this.fixture.givenCurrentTime(currentDate.atStartOfDay(ZoneId.systemDefault()).toInstant())
                 .andGivenCommands(
                         new AddNewVehicleCommand(
                                 vehicleId,
-                                true,
-                                "POL"
+                                true
                         )
                 )
                 .when(new UpdateVehicleTelematicsCommand(vehicleId, false))
                 .expectEvents(new VehicleTelematicsUpdatedEvent(vehicleId, false))
                 .expectState(aggregate -> Assertions.assertEquals(false, aggregate.getTelematics()));
+
+        verify(vehiclePositionService, times(1)).getVehiclePosition(vehicleId.getIdentifier());
     }
 
     @Test
@@ -127,23 +170,56 @@ public class VehicleTest {
                 .andGivenCommands(
                         new AddNewVehicleCommand(
                                 vehicleId,
-                                false,
-                                "POL"
+                                false
                         )
                 )
                 .when(new UpdateVehicleTelematicsCommand(vehicleId, false))
                 .expectNoEvents();
+
+        verify(vehiclePositionService, times(0)).getVehiclePosition(vehicleId.getIdentifier());
+    }
+
+    @Test
+    void updateVehiclePositionWhenTelematicsIsDisabled() {
+        var date = LocalDate.of(2023, 7, 14).atStartOfDay(ZoneId.systemDefault()).toInstant();
+
+        this.fixture.givenCurrentTime(currentDate.atStartOfDay(ZoneId.systemDefault()).toInstant())
+                .andGivenCommands(
+                        new AddNewVehicleCommand(
+                                vehicleId,
+                                false
+                        )
+                )
+                .when(new UpdateVehiclePositionCommand(
+                        vehicleId,
+                        true,
+                        new Coordinate(19.6914, 50.4948),
+                        "POL",
+                        date
+                ))
+                .expectNoEvents();
+
+        verify(vehiclePositionService, times(0)).getVehiclePosition(vehicleId.getIdentifier());
     }
 
     @Test
     void updateVehiclePositionManuallyWithoutCrossingBorderTest() {
         var date = LocalDate.of(2023, 7, 14).atStartOfDay(ZoneId.systemDefault()).toInstant();
+        var serviceResponse = Mono.just(List.of(
+                new Position(
+                        new Coordinate(52.2297, 21.0122),
+                        "POL",
+                        date
+                )
+        ));
+        doReturn(serviceResponse).when(vehiclePositionService).getVehiclePosition(vehicleId.getIdentifier());
+        doReturn(true).when(vehicleValidator).isValidCountryCode("POL");
+
         this.fixture.givenCurrentTime(currentDate.atStartOfDay(ZoneId.systemDefault()).toInstant())
                 .andGivenCommands(
                         new AddNewVehicleCommand(
                                 vehicleId,
-                                false,
-                                "POL"
+                                true
                         )
                 )
                 .when(new UpdateVehiclePositionCommand(
@@ -161,17 +237,29 @@ public class VehicleTest {
                                 date
                         )
                 ).expectState(aggregate -> Assertions.assertEquals("POL", aggregate.getLastKnownCountry()));
+
+        verify(vehiclePositionService, times(1)).getVehiclePosition(vehicleId.getIdentifier());
+
     }
 
     @Test
     void updateVehiclePositionManuallyWithCrossingBorderTest() {
         var date = LocalDate.of(2023, 7, 14).atStartOfDay(ZoneId.systemDefault()).toInstant();
+        var serviceResponse = Mono.just(List.of(
+                new Position(
+                        new Coordinate(52.2297, 21.0122),
+                        "POL",
+                        date
+                )
+        ));
+        doReturn(serviceResponse).when(vehiclePositionService).getVehiclePosition(vehicleId.getIdentifier());
+        doReturn(true).when(vehicleValidator).isValidCountryCode("POL");
+
         this.fixture.givenCurrentTime(currentDate.atStartOfDay(ZoneId.systemDefault()).toInstant())
                 .andGivenCommands(
                         new AddNewVehicleCommand(
                                 vehicleId,
-                                false,
-                                "POL"
+                                true
                         )
                 )
                 .when(new UpdateVehiclePositionCommand(
@@ -195,27 +283,35 @@ public class VehicleTest {
                                 date
                         )
                 ).expectState(aggregate -> Assertions.assertEquals("DEU", aggregate.getLastKnownCountry()));
+
+        verify(vehiclePositionService, times(1)).getVehiclePosition(vehicleId.getIdentifier());
     }
 
     @Test
     void updateVehiclePositionRunMechanismManuallyWithoutCrossingBorderTest() {
         var date = LocalDate.of(2023, 7, 14).atStartOfDay(ZoneId.systemDefault()).toInstant();
-        var serviceResponse = Mono.just(List.of(
+        var firstServiceResponse = Mono.just(List.of(
                 new Position(
                         new Coordinate(52.2297, 21.0122),
                         "POL",
                         date
                 )
         ));
-        doReturn(serviceResponse).when(vehiclePositionService).getVehiclePosition(vehicleId.getIdentifier());
+        var secondServiceResponse = Mono.just(List.of(
+                new Position(
+                        new Coordinate(52.4546, 21.3465),
+                        "POL",
+                        date
+                )
+        ));
+        doReturn(firstServiceResponse).doReturn(secondServiceResponse).when(vehiclePositionService).getVehiclePosition(vehicleId.getIdentifier());
         doReturn(true).when(vehicleValidator).isValidCountryCode(any(String.class));
 
         this.fixture.givenCurrentTime(currentDate.atStartOfDay(ZoneId.systemDefault()).toInstant())
                 .andGivenCommands(
                         new AddNewVehicleCommand(
                                 vehicleId,
-                                true,
-                                "POL"
+                                true
                         )
                 )
                 .when(new UpdateVehiclePositionCommand(
@@ -228,36 +324,42 @@ public class VehicleTest {
                 .expectEvents(
                         new LastVehiclePositionUpdatedEvent(
                                 vehicleId,
-                                new Coordinate(52.2297, 21.0122),
+                                new Coordinate(52.4546, 21.3465),
                                 "POL",
                                 date
                         )
                 ).expectState(aggregate -> Assertions.assertEquals("POL", aggregate.getLastKnownCountry()))
                 .expectScheduledDeadlineWithName(Duration.ofMinutes(5), GET_VEHICLE_POSITION_DEADLINE);
 
-        verify(vehiclePositionService, times(1)).getVehiclePosition(vehicleId.getIdentifier());
+        verify(vehiclePositionService, times(2)).getVehiclePosition(vehicleId.getIdentifier());
 
     }
 
     @Test
     void updateVehiclePositionRunMechanismManuallyWithCrossingBorderTest() {
         var date = LocalDate.of(2023, 7, 14).atStartOfDay(ZoneId.systemDefault()).toInstant();
-        var serviceResponse = Mono.just(List.of(
+        var firstServiceResponse = Mono.just(List.of(
                 new Position(
                         new Coordinate(52.2297, 21.0122),
+                        "POL",
+                        date
+                )
+        ));
+        var secondServiceResponse = Mono.just(List.of(
+                new Position(
+                        new Coordinate(52.4546, 21.3465),
                         "DEU",
                         date
                 )
         ));
-        doReturn(serviceResponse).when(vehiclePositionService).getVehiclePosition(vehicleId.getIdentifier());
+        doReturn(firstServiceResponse).doReturn(secondServiceResponse).when(vehiclePositionService).getVehiclePosition(vehicleId.getIdentifier());
         doReturn(true).when(vehicleValidator).isValidCountryCode(any(String.class));
 
         this.fixture.givenCurrentTime(currentDate.atStartOfDay(ZoneId.systemDefault()).toInstant())
                 .andGivenCommands(
                         new AddNewVehicleCommand(
                                 vehicleId,
-                                true,
-                                "POL"
+                                true
                         )
                 )
                 .when(new UpdateVehiclePositionCommand(
@@ -275,7 +377,7 @@ public class VehicleTest {
                         ),
                         new LastVehiclePositionUpdatedEvent(
                                 vehicleId,
-                                new Coordinate(52.2297, 21.0122),
+                                new Coordinate(52.4546, 21.3465),
                                 "DEU",
                                 date
                         )
@@ -286,29 +388,36 @@ public class VehicleTest {
                 })
                 .expectScheduledDeadlineWithName(Duration.ofMinutes(5), CONFIRM_BORDER_CROSSING_DEADLINE);
 
-        verify(vehiclePositionService, times(1)).getVehiclePosition(vehicleId.getIdentifier());
+        verify(vehiclePositionService, times(2)).getVehiclePosition(vehicleId.getIdentifier());
     }
 
     @Test
     @DisplayName("Test of mechanism with deadline, crossing border but invalid country code in response")
     void updateVehiclePositionWithDeadlineAndMechanismTest() {
         var date = LocalDate.of(2023, 7, 14).atStartOfDay(ZoneId.systemDefault()).toInstant();
-        var serviceResponse = Mono.just(List.of(
+        var firstServiceResponse = Mono.just(List.of(
                 new Position(
                         new Coordinate(52.2297, 21.0122),
+                        "DEU",
+                        date
+                )
+        ));
+        var secondServiceResponse = Mono.just(List.of(
+                new Position(
+                        new Coordinate(52.4546, 21.3465),
                         "",
                         date
                 )
         ));
-        doReturn(serviceResponse).when(vehiclePositionService).getVehiclePosition(vehicleId.getIdentifier());
-        doReturn("SEN").when(vehicleValidator).getCountryCodeFromCoordinates(any(Double.class), any(Double.class));
+        doReturn(firstServiceResponse).doReturn(secondServiceResponse).when(vehiclePositionService).getVehiclePosition(vehicleId.getIdentifier());
+        doReturn(true).doReturn(false).when(vehicleValidator).isValidCountryCode(anyString());
+        doReturn("SEN").when(vehicleValidator).getCountryCodeFromCoordinates(52.4546, 21.3465);
 
         this.fixture.givenCurrentTime(currentDate.atStartOfDay(ZoneId.systemDefault()).toInstant())
                 .andGivenCommands(
                         new AddNewVehicleCommand(
                                 vehicleId,
-                                true,
-                                "DEU"
+                                true
                         )
                 )
                 .whenTimeElapses(Duration.ofMinutes(5))
@@ -321,15 +430,16 @@ public class VehicleTest {
                         ),
                         new LastVehiclePositionUpdatedEvent(
                                 vehicleId,
-                                new Coordinate(52.2297, 21.0122),
+                                new Coordinate(52.4546, 21.3465),
                                 "SEN",
                                 date
                         )
                 ).expectState(aggregate -> Assertions.assertEquals("SEN", aggregate.getLastKnownCountry()))
                 .expectScheduledDeadlineWithName(Duration.ofMinutes(5), CONFIRM_BORDER_CROSSING_DEADLINE);
 
-        verify(vehiclePositionService, times(1)).getVehiclePosition(vehicleId.getIdentifier());
-        verify(vehicleValidator, times(1)).getCountryCodeFromCoordinates(any(Double.class), any(Double.class));
+        verify(vehiclePositionService, times(2)).getVehiclePosition(vehicleId.getIdentifier());
+        verify(vehicleValidator, times(1)).getCountryCodeFromCoordinates(52.4546, 21.3465);
+        verify(vehicleValidator, times(2)).isValidCountryCode(anyString());
     }
 
     @Test
@@ -339,26 +449,35 @@ public class VehicleTest {
         var firstServiceResponse = Mono.just(List.of(
                 new Position(
                         new Coordinate(52.2297, 21.0122),
-                        "SAU",
+                        "DEU",
                         date
                 )
         ));
         var secondServiceResponse = Mono.just(List.of(
                 new Position(
                         new Coordinate(52.2297, 21.0122),
+                        "SAU",
+                        date
+                )
+        ));
+        var thirdServiceResponse = Mono.just(List.of(
+                new Position(
+                        new Coordinate(52.2297, 21.0122),
                         "DEU",
                         date
                 )
         ));
-        doReturn(firstServiceResponse).doReturn(secondServiceResponse).when(vehiclePositionService).getVehiclePosition(vehicleId.getIdentifier());
+        doReturn(firstServiceResponse)
+                .doReturn(secondServiceResponse)
+                .doReturn(thirdServiceResponse)
+                .when(vehiclePositionService).getVehiclePosition(vehicleId.getIdentifier());
         doReturn(true).when(vehicleValidator).isValidCountryCode(any(String.class));
 
         this.fixture.givenCurrentTime(currentDate.atStartOfDay(ZoneId.systemDefault()).toInstant())
                 .andGivenCommands(
                         new AddNewVehicleCommand(
                                 vehicleId,
-                                true,
-                                "DEU"
+                                true
                         )
                 )
                 .whenTimeElapses(Duration.ofMinutes(10))
@@ -385,8 +504,7 @@ public class VehicleTest {
                 ).expectState(aggregate -> Assertions.assertEquals("DEU", aggregate.getLastKnownCountry()))
                 .expectScheduledDeadlineWithName(Duration.ofMinutes(5), GET_VEHICLE_POSITION_DEADLINE);
 
-        verify(vehiclePositionService, times(2)).getVehiclePosition(vehicleId.getIdentifier());
-        verify(vehicleValidator, times(0)).getCountryCodeFromCoordinates(any(Double.class), any(Double.class));
+        verify(vehiclePositionService, times(3)).getVehiclePosition(vehicleId.getIdentifier());
     }
 
     @Test
@@ -396,7 +514,7 @@ public class VehicleTest {
         var firstServiceResponse = Mono.just(List.of(
                 new Position(
                         new Coordinate(52.2297, 21.0122),
-                        "SAU",
+                        "DEU",
                         date
                 )
         ));
@@ -407,15 +525,24 @@ public class VehicleTest {
                         date
                 )
         ));
-        doReturn(firstServiceResponse).doReturn(secondServiceResponse).when(vehiclePositionService).getVehiclePosition(vehicleId.getIdentifier());
+        var thirdServiceResponse = Mono.just(List.of(
+                new Position(
+                        new Coordinate(52.2297, 21.0122),
+                        "SAU",
+                        date
+                )
+        ));
+        doReturn(firstServiceResponse)
+                .doReturn(secondServiceResponse)
+                .doReturn(thirdServiceResponse)
+                .when(vehiclePositionService).getVehiclePosition(vehicleId.getIdentifier());
         doReturn(true).when(vehicleValidator).isValidCountryCode(any(String.class));
 
         this.fixture.givenCurrentTime(currentDate.atStartOfDay(ZoneId.systemDefault()).toInstant())
                 .andGivenCommands(
                         new AddNewVehicleCommand(
                                 vehicleId,
-                                true,
-                                "DEU"
+                                true
                         )
                 )
                 .whenTimeElapses(Duration.ofMinutes(10))
@@ -448,7 +575,6 @@ public class VehicleTest {
                 ).expectState(aggregate -> Assertions.assertEquals("SAU", aggregate.getLastKnownCountry()))
                 .expectScheduledDeadlineWithName(Duration.ofMinutes(5), GET_VEHICLE_POSITION_DEADLINE);
 
-        verify(vehiclePositionService, times(2)).getVehiclePosition(vehicleId.getIdentifier());
-        verify(vehicleValidator, times(0)).getCountryCodeFromCoordinates(any(Double.class), any(Double.class));
+        verify(vehiclePositionService, times(3)).getVehiclePosition(vehicleId.getIdentifier());
     }
 }

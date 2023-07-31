@@ -10,6 +10,7 @@ import org.axonframework.modelling.command.AggregateScopeDescriptor;
 import org.axonframework.modelling.command.CommandHandlerInterceptor;
 import org.axonframework.spring.stereotype.Aggregate;
 import org.boris.core_api.*;
+import org.boris.rest.exceptions.VehiclePositionUpdateException;
 import org.boris.services.VehiclePositionService;
 import org.boris.validation.VehicleValidator;
 import org.boris.vehicle.exceptions.InvalidTelematicsUpdateException;
@@ -45,38 +46,67 @@ public class Vehicle {
     }
 
     @CommandHandler
-    public Vehicle(AddNewVehicleCommand command, DeadlineManager deadlineManager) {
+    public Vehicle(AddNewVehicleCommand command, DeadlineManager deadlineManager, VehiclePositionService service, VehicleValidator vehicleValidator) {
         LOGGER.info("Successfully added vehicle with registration number [{}]", command.getVehicleReg().getIdentifier());
-        apply(new NewVehicleAddedEvent(
-                command.getVehicleReg(),
-                Optional.ofNullable(command.getTelematicsEnabled()).orElse(false),
-                command.getInitialCountry()
-        )).andThen(() -> {
-            if (this.telematics) {
-                scheduleDeadline(deadlineManager, command.getVehicleReg(), GET_VEHICLE_POSITION_DEADLINE);
-            }
-        });
+        var telematics = Optional.ofNullable(command.getTelematicsEnabled()).orElse(false);
+        if (telematics) {
+            var serviceResponse = service.getVehiclePosition(command.getVehicleReg().getIdentifier());
+            serviceResponse.subscribe(positions -> {
+                var position = positions.get(0);
+                position.setCountry(getCountryCodeIfInvalid(position.getCountry(), position.getCoordinate(), vehicleValidator));
+                apply(new NewVehicleAddedEvent(
+                        command.getVehicleReg(),
+                        telematics,
+                        position.getCountry()
+                )).andThen(() -> {
+                    if (this.telematics) {
+                        scheduleDeadline(deadlineManager, command.getVehicleReg(), GET_VEHICLE_POSITION_DEADLINE);
+                    }
+                });
+            });
+        } else {
+            apply(new NewVehicleAddedEvent(
+                    command.getVehicleReg(),
+                    Optional.ofNullable(command.getTelematicsEnabled()).orElse(false),
+                    null
+            ));
+        }
     }
 
     @CommandHandlerInterceptor
     public void intercept(UpdateVehicleTelematicsCommand command, InterceptorChain interceptorChain) throws Exception {
         if (telematics.equals(command.getTelematicsEnabled())) {
             throw new InvalidTelematicsUpdateException("Can't change telematics status it's already " + command.getTelematicsEnabled());
-        } else {
-            interceptorChain.proceed();
         }
+        interceptorChain.proceed();
     }
 
     @CommandHandler
-    public void on(UpdateVehicleTelematicsCommand command, DeadlineManager deadlineManager) {
+    public void on(UpdateVehicleTelematicsCommand command, DeadlineManager deadlineManager, VehiclePositionService service, VehicleValidator vehicleValidator) {
         apply(new VehicleTelematicsUpdatedEvent(
                 command.getVehicleReg(),
                 command.getTelematicsEnabled()
         )).andThen(() -> {
             if (this.telematics) {
+                if (this.lastKnownCountry == null) {
+                    var serviceResponse = service.getVehiclePosition(command.getVehicleReg().getIdentifier());
+                    serviceResponse.subscribe(positions -> {
+                        var position = positions.get(0);
+                        position.setCountry(getCountryCodeIfInvalid(position.getCountry(), position.getCoordinate(), vehicleValidator));
+                        apply(new VehicleInitialCountryUpdatedEvent(command.getVehicleReg(), position.getCountry()));
+                    });
+                }
                 scheduleDeadline(deadlineManager, command.getVehicleReg(), GET_VEHICLE_POSITION_DEADLINE);
             }
         });
+    }
+
+    @CommandHandlerInterceptor
+    public void intercept(UpdateVehiclePositionCommand command, InterceptorChain interceptorChain) throws Exception {
+        if (telematics.equals(false)) {
+            throw new VehiclePositionUpdateException("Can't update vehicle position because telematics is disabled");
+        }
+        interceptorChain.proceed();
     }
 
     @CommandHandler
@@ -123,6 +153,11 @@ public class Vehicle {
     @EventSourcingHandler
     public void on(VehicleTelematicsUpdatedEvent event) {
         this.telematics = event.getTelematicsEnabled();
+    }
+
+    @EventSourcingHandler
+    public void on(VehicleInitialCountryUpdatedEvent event) {
+        this.lastKnownCountry = event.getInitialCountry();
     }
 
     @EventSourcingHandler

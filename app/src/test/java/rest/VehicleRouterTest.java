@@ -45,8 +45,7 @@ public class VehicleRouterTest {
 
     private static final AddNewVehicleDTO ADD_NEW_VEHICLE_DTO = new AddNewVehicleDTO(
             VEHICLE_ID.getIdentifier(),
-            true,
-            "POL"
+            true
     );
 
     private static final UpdateVehiclePositionDTO UPDATE_VEHICLE_POSITION_DTO_MANUALLY = new UpdateVehiclePositionDTO(
@@ -290,7 +289,7 @@ public class VehicleRouterTest {
                 .uri(uriBuilder -> uriBuilder
                         .path(VehicleRouter.VEHICLE_BORDER_CROSSING_REPORT)
                         .queryParam("vehicleReg", VEHICLE_ID.getIdentifier())
-                        .queryParam("startingDate","2023-07-09T10:00:00Z")
+                        .queryParam("startingDate", "2023-07-09T10:00:00Z")
                         .queryParam("endDate", "2023-07-09T10:00:00Z")
                         .build()
                 )
@@ -305,7 +304,7 @@ public class VehicleRouterTest {
                 .uri(uriBuilder -> uriBuilder
                         .path(VehicleRouter.VEHICLE_BORDER_CROSSING_REPORT)
                         .queryParam("vehicleReg", VEHICLE_ID.getIdentifier())
-                        .queryParam("startingDate","sdf")
+                        .queryParam("startingDate", "sdf")
                         .queryParam("endDate", "2023-07-09T10:00:00Z")
                         .build()
                 )
@@ -321,7 +320,7 @@ public class VehicleRouterTest {
                 .uri(uriBuilder -> uriBuilder
                         .path(VehicleRouter.VEHICLE_BORDER_CROSSING_REPORT)
                         .queryParam("vehicleReg", "")
-                        .queryParam("startingDate","sdf")
+                        .queryParam("startingDate", "sdf")
                         .queryParam("endDate", "2023-07-09T10:00:00Z")
                         .build()
                 )
