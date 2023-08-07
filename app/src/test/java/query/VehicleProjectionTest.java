@@ -1,5 +1,6 @@
 package query;
 
+import org.boris.core_api.Coordinate;
 import org.boris.core_api.NewVehicleAddedEvent;
 import org.boris.core_api.VehicleId;
 import org.boris.core_api.VehicleTelematicsUpdatedEvent;
@@ -43,7 +44,8 @@ public class VehicleProjectionTest {
                 new NewVehicleAddedEvent(
                         vehicleId,
                         true,
-                        "POL"
+                        "POL",
+                        new Coordinate(52.2297, 21.0122)
                 )
         );
 

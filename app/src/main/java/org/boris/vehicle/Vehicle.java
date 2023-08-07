@@ -37,6 +37,8 @@ public class Vehicle {
 
     private Boolean telematics;
     private String lastKnownCountry;
+
+    private Coordinate lastKnownCoordinate;
     private String countryOut;
     private Instant crossingBorderTimestamp;
 
@@ -56,7 +58,8 @@ public class Vehicle {
                 apply(new NewVehicleAddedEvent(
                         command.getVehicleReg(),
                         telematics,
-                        position.getCountry()
+                        position.getCountry(),
+                        position.getCoordinate()
                 )).andThen(() -> {
                     if (this.telematics) {
                         scheduleDeadline(deadlineManager, command.getVehicleReg(), GET_VEHICLE_POSITION_DEADLINE);
@@ -67,6 +70,7 @@ public class Vehicle {
             apply(new NewVehicleAddedEvent(
                     command.getVehicleReg(),
                     Optional.ofNullable(command.getTelematicsEnabled()).orElse(false),
+                    null,
                     null
             ));
         }
@@ -91,7 +95,7 @@ public class Vehicle {
                     var serviceResponse = service.getVehiclePosition(command.getVehicleReg().getIdentifier());
                     serviceResponse.subscribe(position -> {
                         position.setCountry(getCountryCodeIfInvalid(position.getCountry(), position.getCoordinate(), vehicleValidator));
-                        apply(new VehicleInitialCountryUpdatedEvent(command.getVehicleReg(), position.getCountry()));
+                        apply(new LastVehiclePositionUpdatedEvent(command.getVehicleReg(), position.getCoordinate(), position.getCountry(), position.getTimestamp()));
                     });
                 }
                 scheduleDeadline(deadlineManager, command.getVehicleReg(), GET_VEHICLE_POSITION_DEADLINE);
@@ -144,6 +148,7 @@ public class Vehicle {
         this.vehicleReg = event.getVehicleReg();
         this.telematics = event.getTelematicsEnabled();
         this.lastKnownCountry = event.getInitialCountry();
+        this.lastKnownCoordinate = event.getInitialCoordinate();
         this.countryOut = null;
         this.crossingBorderTimestamp = null;
     }
@@ -151,11 +156,6 @@ public class Vehicle {
     @EventSourcingHandler
     public void on(VehicleTelematicsUpdatedEvent event) {
         this.telematics = event.getTelematicsEnabled();
-    }
-
-    @EventSourcingHandler
-    public void on(VehicleInitialCountryUpdatedEvent event) {
-        this.lastKnownCountry = event.getInitialCountry();
     }
 
     @EventSourcingHandler
@@ -167,6 +167,7 @@ public class Vehicle {
     @EventSourcingHandler
     public void on(LastVehiclePositionUpdatedEvent event) {
         this.lastKnownCountry = event.getCountry();
+        this.lastKnownCoordinate = event.getCoordinate();
     }
 
     @EventSourcingHandler

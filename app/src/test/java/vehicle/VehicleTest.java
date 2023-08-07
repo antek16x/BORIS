@@ -69,7 +69,8 @@ public class VehicleTest {
                 )).expectEvents(new NewVehicleAddedEvent(
                         vehicleId,
                         true,
-                        "POL"
+                        "POL",
+                        new Coordinate(52.2297, 21.0122)
                 )).expectState(aggregate -> {
                     Assertions.assertEquals(vehicleId, aggregate.getVehicleReg());
                     Assertions.assertEquals(true, aggregate.getTelematics());
@@ -90,7 +91,8 @@ public class VehicleTest {
                 )).expectEvents(new NewVehicleAddedEvent(
                         vehicleId,
                         false,
-                        null
+                        null,
+                null
                 )).expectState(aggregate -> {
                     Assertions.assertEquals(vehicleId, aggregate.getVehicleReg());
                     Assertions.assertEquals(false, aggregate.getTelematics());
@@ -125,7 +127,7 @@ public class VehicleTest {
                 .when(new UpdateVehicleTelematicsCommand(vehicleId, true))
                 .expectEvents(
                         new VehicleTelematicsUpdatedEvent(vehicleId, true),
-                        new VehicleInitialCountryUpdatedEvent(vehicleId, "POL")
+                        new LastVehiclePositionUpdatedEvent(vehicleId, new Coordinate(52.2297, 21.0122), "POL", date)
                 )
                 .expectState(aggregate -> {
                     Assertions.assertEquals(true, aggregate.getTelematics());
