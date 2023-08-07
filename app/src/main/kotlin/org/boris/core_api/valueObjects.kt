@@ -14,7 +14,7 @@ constructor(val identifier: String = IdentifierFactory.getInstance().generateIde
 }
 
 data class VehiclePositionServiceResponse(
-    val position: List<Position>
+    val position: Position
 )
 
 data class Position(

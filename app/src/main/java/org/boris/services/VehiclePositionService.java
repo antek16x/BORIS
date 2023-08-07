@@ -8,8 +8,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
 
-import java.util.List;
-
 @Service
 @DependsOn(value = {"externalApiWebClient"})
 public class VehiclePositionService {
@@ -21,7 +19,7 @@ public class VehiclePositionService {
         this.externalApiWebClient = externalApiWebClient;
     }
 
-    public Mono<List<Position>> getVehiclePosition(String vehicleReg) {
+    public Mono<Position> getVehiclePosition(String vehicleReg) {
         var getUrl = "/vehicle/{vehicleReg}";
 
         return externalApiWebClient.get()

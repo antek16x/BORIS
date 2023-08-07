@@ -24,7 +24,6 @@ import reactor.test.StepVerifier;
 
 import java.io.IOException;
 import java.time.Instant;
-import java.util.List;
 
 @WebFluxTest
 @ContextConfiguration(classes = {
@@ -54,12 +53,10 @@ public class VehiclePositionServiceTest {
     public void testGetVehiclePosition() throws JsonProcessingException {
         String vehicleReg = "REG_TEST";
         var response = new VehiclePositionServiceResponse(
-                List.of(
-                        new Position(
-                                new Coordinate(52.2297, 21.0122),
-                                "POL",
-                                Instant.parse("2023-07-09T10:00:00Z")
-                        )
+                new Position(
+                        new Coordinate(52.2297, 21.0122),
+                        "POL",
+                        Instant.parse("2023-07-09T10:00:00Z")
                 )
         );
 

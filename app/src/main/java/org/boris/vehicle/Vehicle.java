@@ -51,8 +51,7 @@ public class Vehicle {
         var telematics = Optional.ofNullable(command.getTelematicsEnabled()).orElse(false);
         if (telematics) {
             var serviceResponse = service.getVehiclePosition(command.getVehicleReg().getIdentifier());
-            serviceResponse.subscribe(positions -> {
-                var position = positions.get(0);
+            serviceResponse.subscribe(position -> {
                 position.setCountry(getCountryCodeIfInvalid(position.getCountry(), position.getCoordinate(), vehicleValidator));
                 apply(new NewVehicleAddedEvent(
                         command.getVehicleReg(),
@@ -90,8 +89,7 @@ public class Vehicle {
             if (this.telematics) {
                 if (this.lastKnownCountry == null) {
                     var serviceResponse = service.getVehiclePosition(command.getVehicleReg().getIdentifier());
-                    serviceResponse.subscribe(positions -> {
-                        var position = positions.get(0);
+                    serviceResponse.subscribe(position -> {
                         position.setCountry(getCountryCodeIfInvalid(position.getCountry(), position.getCoordinate(), vehicleValidator));
                         apply(new VehicleInitialCountryUpdatedEvent(command.getVehicleReg(), position.getCountry()));
                     });
@@ -187,8 +185,7 @@ public class Vehicle {
     public void onConfirmationDeadline(String payload, VehiclePositionService service, VehicleValidator vehicleValidator, DeadlineManager deadlineManager) {
         LOGGER.info("Deadline for crossing border confirmation passed, trying to confirm");
         var serviceResponse = service.getVehiclePosition(this.vehicleReg.getIdentifier());
-        serviceResponse.subscribe(positions -> {
-            var position = positions.get(0);
+        serviceResponse.subscribe(position -> {
             position.setCountry(getCountryCodeIfInvalid(position.getCountry(), position.getCoordinate(), vehicleValidator));
             if (!position.getCountry().equals(countryOut)) {
                 LOGGER.info("Crossing border for vehicle [{}] has been confirmed", this.vehicleReg.getIdentifier());
@@ -237,8 +234,7 @@ public class Vehicle {
     private void processServiceResponse(VehiclePositionService service, VehicleValidator vehicleValidator, DeadlineManager deadlineManager) {
         LOGGER.info("Update position of vehicle with registration plate [{}] by service", this.vehicleReg);
         var serviceResponse = service.getVehiclePosition(this.vehicleReg.getIdentifier());
-        serviceResponse.subscribe(positions -> {
-            var position = positions.get(0);
+        serviceResponse.subscribe(position -> {
             position.setCountry(getCountryCodeIfInvalid(position.getCountry(), position.getCoordinate(), vehicleValidator));
             if (!Objects.equals(position.getCountry(), lastKnownCountry)) {
                 LOGGER.info("Vehicle with registration plate [{}] crossed the border, confirmation required", this.vehicleReg);

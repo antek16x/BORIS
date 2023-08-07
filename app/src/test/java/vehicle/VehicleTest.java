@@ -18,7 +18,6 @@ import reactor.core.publisher.Mono;
 import java.time.Duration;
 import java.time.LocalDate;
 import java.time.ZoneId;
-import java.util.List;
 
 import static org.mockito.Mockito.*;
 
@@ -53,13 +52,13 @@ public class VehicleTest {
     @Test
     void addNewVehicleWithTelematicsEnabledTest() {
         var date = LocalDate.of(2023, 7, 14).atStartOfDay(ZoneId.systemDefault()).toInstant();
-        var serviceResponse = Mono.just(List.of(
+        var serviceResponse = Mono.just(
                 new Position(
                         new Coordinate(52.2297, 21.0122),
                         "POL",
                         date
                 )
-        ));
+        );
         doReturn(serviceResponse).when(vehiclePositionService).getVehiclePosition(vehicleId.getIdentifier());
         doReturn(true).when(vehicleValidator).isValidCountryCode("POL");
 
@@ -106,13 +105,13 @@ public class VehicleTest {
     @Test
     void updateVehicleTelematicsEnableTelematicsTest() {
         var date = LocalDate.of(2023, 7, 14).atStartOfDay(ZoneId.systemDefault()).toInstant();
-        var serviceResponse = Mono.just(List.of(
+        var serviceResponse = Mono.just(
                 new Position(
                         new Coordinate(52.2297, 21.0122),
                         "POL",
                         date
                 )
-        ));
+        );
         doReturn(serviceResponse).when(vehiclePositionService).getVehiclePosition(vehicleId.getIdentifier());
         doReturn(true).when(vehicleValidator).isValidCountryCode("POL");
 
@@ -140,13 +139,13 @@ public class VehicleTest {
     @Test
     void updateVehicleTelematicsDisableTelematicsTest() {
         var date = LocalDate.of(2023, 7, 14).atStartOfDay(ZoneId.systemDefault()).toInstant();
-        var serviceResponse = Mono.just(List.of(
+        var serviceResponse = Mono.just(
                 new Position(
                         new Coordinate(52.2297, 21.0122),
                         "POL",
                         date
                 )
-        ));
+        );
         doReturn(serviceResponse).when(vehiclePositionService).getVehiclePosition(vehicleId.getIdentifier());
         doReturn(true).when(vehicleValidator).isValidCountryCode("POL");
 
@@ -205,13 +204,13 @@ public class VehicleTest {
     @Test
     void updateVehiclePositionManuallyWithoutCrossingBorderTest() {
         var date = LocalDate.of(2023, 7, 14).atStartOfDay(ZoneId.systemDefault()).toInstant();
-        var serviceResponse = Mono.just(List.of(
+        var serviceResponse = Mono.just(
                 new Position(
                         new Coordinate(52.2297, 21.0122),
                         "POL",
                         date
                 )
-        ));
+        );
         doReturn(serviceResponse).when(vehiclePositionService).getVehiclePosition(vehicleId.getIdentifier());
         doReturn(true).when(vehicleValidator).isValidCountryCode("POL");
 
@@ -245,13 +244,13 @@ public class VehicleTest {
     @Test
     void updateVehiclePositionManuallyWithCrossingBorderTest() {
         var date = LocalDate.of(2023, 7, 14).atStartOfDay(ZoneId.systemDefault()).toInstant();
-        var serviceResponse = Mono.just(List.of(
+        var serviceResponse = Mono.just(
                 new Position(
                         new Coordinate(52.2297, 21.0122),
                         "POL",
                         date
                 )
-        ));
+        );
         doReturn(serviceResponse).when(vehiclePositionService).getVehiclePosition(vehicleId.getIdentifier());
         doReturn(true).when(vehicleValidator).isValidCountryCode("POL");
 
@@ -290,20 +289,20 @@ public class VehicleTest {
     @Test
     void updateVehiclePositionRunMechanismManuallyWithoutCrossingBorderTest() {
         var date = LocalDate.of(2023, 7, 14).atStartOfDay(ZoneId.systemDefault()).toInstant();
-        var firstServiceResponse = Mono.just(List.of(
+        var firstServiceResponse = Mono.just(
                 new Position(
                         new Coordinate(52.2297, 21.0122),
                         "POL",
                         date
                 )
-        ));
-        var secondServiceResponse = Mono.just(List.of(
+        );
+        var secondServiceResponse = Mono.just(
                 new Position(
                         new Coordinate(52.4546, 21.3465),
                         "POL",
                         date
                 )
-        ));
+        );
         doReturn(firstServiceResponse).doReturn(secondServiceResponse).when(vehiclePositionService).getVehiclePosition(vehicleId.getIdentifier());
         doReturn(true).when(vehicleValidator).isValidCountryCode(any(String.class));
 
@@ -338,20 +337,20 @@ public class VehicleTest {
     @Test
     void updateVehiclePositionRunMechanismManuallyWithCrossingBorderTest() {
         var date = LocalDate.of(2023, 7, 14).atStartOfDay(ZoneId.systemDefault()).toInstant();
-        var firstServiceResponse = Mono.just(List.of(
+        var firstServiceResponse = Mono.just(
                 new Position(
                         new Coordinate(52.2297, 21.0122),
                         "POL",
                         date
                 )
-        ));
-        var secondServiceResponse = Mono.just(List.of(
+        );
+        var secondServiceResponse = Mono.just(
                 new Position(
                         new Coordinate(52.4546, 21.3465),
                         "DEU",
                         date
                 )
-        ));
+        );
         doReturn(firstServiceResponse).doReturn(secondServiceResponse).when(vehiclePositionService).getVehiclePosition(vehicleId.getIdentifier());
         doReturn(true).when(vehicleValidator).isValidCountryCode(any(String.class));
 
@@ -395,20 +394,20 @@ public class VehicleTest {
     @DisplayName("Test of mechanism with deadline, crossing border but invalid country code in response")
     void updateVehiclePositionWithDeadlineAndMechanismTest() {
         var date = LocalDate.of(2023, 7, 14).atStartOfDay(ZoneId.systemDefault()).toInstant();
-        var firstServiceResponse = Mono.just(List.of(
+        var firstServiceResponse = Mono.just(
                 new Position(
                         new Coordinate(52.2297, 21.0122),
                         "DEU",
                         date
                 )
-        ));
-        var secondServiceResponse = Mono.just(List.of(
+        );
+        var secondServiceResponse = Mono.just(
                 new Position(
                         new Coordinate(52.4546, 21.3465),
                         "",
                         date
                 )
-        ));
+        );
         doReturn(firstServiceResponse).doReturn(secondServiceResponse).when(vehiclePositionService).getVehiclePosition(vehicleId.getIdentifier());
         doReturn(true).doReturn(false).when(vehicleValidator).isValidCountryCode(anyString());
         doReturn("SEN").when(vehicleValidator).getCountryCodeFromCoordinates(52.4546, 21.3465);
@@ -446,27 +445,27 @@ public class VehicleTest {
     @DisplayName("Test of mechanism with deadline, crossing border buy without confirmation")
     void confirmationMechanismCannotConfirmTest() {
         var date = LocalDate.of(2023, 7, 14).atStartOfDay(ZoneId.systemDefault()).toInstant();
-        var firstServiceResponse = Mono.just(List.of(
+        var firstServiceResponse = Mono.just(
                 new Position(
                         new Coordinate(52.2297, 21.0122),
                         "DEU",
                         date
                 )
-        ));
-        var secondServiceResponse = Mono.just(List.of(
+        );
+        var secondServiceResponse = Mono.just(
                 new Position(
                         new Coordinate(52.2297, 21.0122),
                         "SAU",
                         date
                 )
-        ));
-        var thirdServiceResponse = Mono.just(List.of(
+        );
+        var thirdServiceResponse = Mono.just(
                 new Position(
                         new Coordinate(52.2297, 21.0122),
                         "DEU",
                         date
                 )
-        ));
+        );
         doReturn(firstServiceResponse)
                 .doReturn(secondServiceResponse)
                 .doReturn(thirdServiceResponse)
@@ -511,27 +510,27 @@ public class VehicleTest {
     @DisplayName("Test of mechanism with deadline, crossing border buy without confirmation")
     void confirmationMechanismConfirmationSucceed() {
         var date = LocalDate.of(2023, 7, 14).atStartOfDay(ZoneId.systemDefault()).toInstant();
-        var firstServiceResponse = Mono.just(List.of(
+        var firstServiceResponse = Mono.just(
                 new Position(
                         new Coordinate(52.2297, 21.0122),
                         "DEU",
                         date
                 )
-        ));
-        var secondServiceResponse = Mono.just(List.of(
+        );
+        var secondServiceResponse = Mono.just(
                 new Position(
                         new Coordinate(52.2297, 21.0122),
                         "SAU",
                         date
                 )
-        ));
-        var thirdServiceResponse = Mono.just(List.of(
+        );
+        var thirdServiceResponse = Mono.just(
                 new Position(
                         new Coordinate(52.2297, 21.0122),
                         "SAU",
                         date
                 )
-        ));
+        );
         doReturn(firstServiceResponse)
                 .doReturn(secondServiceResponse)
                 .doReturn(thirdServiceResponse)
