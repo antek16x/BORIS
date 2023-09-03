@@ -2,16 +2,16 @@ package rest;
 
 import org.axonframework.extensions.reactor.commandhandling.gateway.ReactorCommandGateway;
 import org.axonframework.modelling.command.AggregateNotFoundException;
-import org.boris.core_api.AddNewVehicleCommand;
-import org.boris.core_api.UpdateVehiclePositionCommand;
-import org.boris.core_api.UpdateVehicleTelematicsCommand;
-import org.boris.core_api.VehicleId;
+import org.boris.AddNewVehicleCommand;
+import org.boris.UpdateVehiclePositionCommand;
+import org.boris.UpdateVehicleTelematicsCommand;
+import org.boris.VehicleId;
 import org.boris.rest.*;
 import org.boris.rest.handler.VehicleHandler;
 import org.boris.rest.router.VehicleRouter;
 import org.boris.services.VehicleService;
 import org.boris.validation.VehicleValidator;
-import org.boris.vehicle.exceptions.InvalidTelematicsUpdateException;
+import org.boris.exceptions.InvalidTelematicsUpdateException;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -50,8 +50,8 @@ public class VehicleRouterTest {
 
     private static final UpdateVehiclePositionDTO UPDATE_VEHICLE_POSITION_DTO_MANUALLY = new UpdateVehiclePositionDTO(
             List.of(
-                    new Position(
-                            new Coordinate(52.2297, 21.0122),
+                    new PositionDTO(
+                            new CoordinateDTO(52.2297, 21.0122),
                             "POL",
                             Instant.parse("2023-07-09T10:00:00Z")
                     )
@@ -268,10 +268,10 @@ public class VehicleRouterTest {
     void generateReportTest() {
         var reportDto = new BorderCrossingReportDTO(
                 Instant.now(),
-                List.of(new Report(
-                        new BorderCrossingEvents(
+                List.of(new ReportDTO(
+                        new BorderCrossingEventsDTO(
                                 VEHICLE_ID.getIdentifier(),
-                                List.of(new Event(
+                                List.of(new EventDTO(
                                         Instant.parse("2023-07-09T10:00:00Z"),
                                         "POL",
                                         "FRA"

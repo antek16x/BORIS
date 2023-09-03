@@ -1,13 +1,14 @@
 package org.boris.rest.handler;
 
 import org.axonframework.extensions.reactor.commandhandling.gateway.ReactorCommandGateway;
-import org.boris.core_api.*;
+import org.boris.*;
 import org.boris.rest.AddNewVehicleDTO;
+import org.boris.rest.CoordinateDTO;
 import org.boris.rest.UpdateVehiclePositionDTO;
 import org.boris.rest.UpdateVehicleTelematicsDTO;
-import org.boris.rest.exceptions.InvalidBodyException;
-import org.boris.rest.exceptions.InvalidCountryCodeException;
-import org.boris.rest.exceptions.VehicleAlreadyExistsException;
+import org.boris.exceptions.InvalidBodyException;
+import org.boris.exceptions.InvalidCountryCodeException;
+import org.boris.exceptions.VehicleAlreadyExistsException;
 import org.boris.services.VehicleService;
 import org.boris.validation.VehicleValidator;
 import org.slf4j.Logger;
@@ -165,7 +166,7 @@ public class VehicleHandler {
         }
     }
 
-    private Coordinate convertDTOToValueObject(org.boris.rest.Coordinate coordinate) {
+    private Coordinate convertDTOToValueObject(CoordinateDTO coordinate) {
         return new Coordinate(
                 coordinate.getLongitude(),
                 coordinate.getLatitude()

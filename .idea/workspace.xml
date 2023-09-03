@@ -4,7 +4,57 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="958df023-a283-4c92-80ea-b4e61b338b73" name="Changes" comment="" />
+    <list default="true" id="958df023-a283-4c92-80ea-b4e61b338b73" name="Changes" comment="separate modules">
+      <change afterPath="$PROJECT_DIR$/core-api/build.gradle.kts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/query/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/query/build.gradle.kts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/shared/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/shared/build.gradle.kts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/vehicle/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/vehicle/build.gradle.kts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/gradle.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/gradle.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/build.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/app/build.gradle.kts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/org/boris/config/JacksonAutoConfiguration.java" beforeDir="false" afterPath="$PROJECT_DIR$/shared/src/main/java/org/boris/config/JacksonAutoConfiguration.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/org/boris/config/JpaProperties.java" beforeDir="false" afterPath="$PROJECT_DIR$/shared/src/main/java/org/boris/config/JpaProperties.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/org/boris/config/PostgresConfiguration.java" beforeDir="false" afterPath="$PROJECT_DIR$/shared/src/main/java/org/boris/config/PostgresConfiguration.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/org/boris/config/QuartzAutoConfiguration.java" beforeDir="false" afterPath="$PROJECT_DIR$/shared/src/main/java/org/boris/config/QuartzAutoConfiguration.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/org/boris/config/WebClientAutoConfiguration.java" beforeDir="false" afterPath="$PROJECT_DIR$/shared/src/main/java/org/boris/config/WebClientAutoConfiguration.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/org/boris/query/entity/BorderCrossing.java" beforeDir="false" afterPath="$PROJECT_DIR$/query/src/main/java/org/boris/entity/BorderCrossing.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/org/boris/query/entity/Vehicles.java" beforeDir="false" afterPath="$PROJECT_DIR$/query/src/main/java/org/boris/entity/Vehicles.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/org/boris/query/projection/BorderCrossingProjection.java" beforeDir="false" afterPath="$PROJECT_DIR$/query/src/main/java/org/boris/projection/BorderCrossingProjection.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/org/boris/query/projection/VehicleProjection.java" beforeDir="false" afterPath="$PROJECT_DIR$/query/src/main/java/org/boris/projection/VehicleProjection.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/org/boris/query/repository/BorderCrossingRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/query/src/main/java/org/boris/repository/BorderCrossingRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/org/boris/query/repository/VehiclesRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/query/src/main/java/org/boris/repository/VehiclesRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/org/boris/rest/exceptions/InvalidBodyException.java" beforeDir="false" afterPath="$PROJECT_DIR$/shared/src/main/java/org/boris/exceptions/InvalidBodyException.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/org/boris/rest/exceptions/InvalidCountryCodeException.java" beforeDir="false" afterPath="$PROJECT_DIR$/shared/src/main/java/org/boris/exceptions/InvalidCountryCodeException.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/org/boris/rest/exceptions/VehicleAlreadyExistsException.java" beforeDir="false" afterPath="$PROJECT_DIR$/shared/src/main/java/org/boris/exceptions/VehicleAlreadyExistsException.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/org/boris/rest/exceptions/VehiclePositionUpdateException.java" beforeDir="false" afterPath="$PROJECT_DIR$/shared/src/main/java/org/boris/exceptions/VehiclePositionUpdateException.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/org/boris/rest/handler/VehicleHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/org/boris/rest/handler/VehicleHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/org/boris/rest/router/VehicleRouter.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/org/boris/rest/router/VehicleRouter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/org/boris/services/VehiclePositionService.java" beforeDir="false" afterPath="$PROJECT_DIR$/shared/src/main/java/org/boris/services/VehiclePositionService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/org/boris/services/VehicleService.java" beforeDir="false" afterPath="$PROJECT_DIR$/shared/src/main/java/org/boris/services/VehicleService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/org/boris/validation/VehicleValidator.java" beforeDir="false" afterPath="$PROJECT_DIR$/shared/src/main/java/org/boris/validation/VehicleValidator.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/org/boris/vehicle/Vehicle.java" beforeDir="false" afterPath="$PROJECT_DIR$/vehicle/src/main/java/org/boris/Vehicle.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/org/boris/vehicle/exceptions/CountryCodeNotFound.java" beforeDir="false" afterPath="$PROJECT_DIR$/shared/src/main/java/org/boris/exceptions/CountryCodeNotFound.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/org/boris/vehicle/exceptions/InvalidTelematicsUpdateException.java" beforeDir="false" afterPath="$PROJECT_DIR$/shared/src/main/java/org/boris/exceptions/InvalidTelematicsUpdateException.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/kotlin/org/boris/core_api/commands.kt" beforeDir="false" afterPath="$PROJECT_DIR$/core-api/src/main/kotlin/org/boris/commands.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/kotlin/org/boris/core_api/events.kt" beforeDir="false" afterPath="$PROJECT_DIR$/core-api/src/main/kotlin/org/boris/events.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/kotlin/org/boris/core_api/valueObjects.kt" beforeDir="false" afterPath="$PROJECT_DIR$/core-api/src/main/kotlin/org/boris/valueObjects.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/kotlin/org/boris/rest/dto.kt" beforeDir="false" afterPath="$PROJECT_DIR$/core-api/src/main/kotlin/org/boris/rest/dto.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/test/java/query/BorderCrossingProjectionTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/query/src/test/java/org/boris/BorderCrossingProjectionTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/test/java/query/DBTestConfiguration.java" beforeDir="false" afterPath="$PROJECT_DIR$/query/src/test/java/org/boris/DBTestConfiguration.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/test/java/query/VehicleProjectionTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/query/src/test/java/org/boris/VehicleProjectionTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/test/java/rest/VehicleRouterTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/test/java/rest/VehicleRouterTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/test/java/services/VehiclePositionServiceTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/shared/src/test/java/org/boris/services/VehiclePositionServiceTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/test/java/services/VehicleServiceTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/shared/src/test/java/org/boris/services/VehicleServiceTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/test/java/validation/VehicleValidatorTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/shared/src/test/java/org/boris/validation/VehicleValidatorTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/test/java/vehicle/VehicleTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/vehicle/src/test/java/org/boris/VehicleTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/test/resources/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/query/src/test/resources/application.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/settings.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/settings.gradle.kts" afterDir="false" />
+    </list>
+    <list id="732d3fd6-3ce4-4001-9e53-6dde7e7a0966" name="gitignore" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -15,30 +65,715 @@
       <ProjectState />
     </projectState>
   </component>
+  <component name="ExternalProjectsManager">
+    <system id="GRADLE">
+      <state>
+        <task path="$PROJECT_DIR$">
+          <activation />
+        </task>
+        <projects_view>
+          <tree_state>
+            <expand>
+              <path>
+                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
+                <item name="BORIS" type="f1a62948:ProjectNode" />
+              </path>
+              <path>
+                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
+                <item name="BORIS" type="f1a62948:ProjectNode" />
+                <item name="Tasks" type="e4a08cd1:TasksNode" />
+              </path>
+              <path>
+                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
+                <item name="BORIS" type="f1a62948:ProjectNode" />
+                <item name="Tasks" type="e4a08cd1:TasksNode" />
+                <item name="build" type="c8890929:TasksNode$1" />
+              </path>
+              <path>
+                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
+                <item name="BORIS" type="f1a62948:ProjectNode" />
+                <item name="Tasks" type="e4a08cd1:TasksNode" />
+                <item name="verification" type="c8890929:TasksNode$1" />
+              </path>
+            </expand>
+            <select />
+          </tree_state>
+        </projects_view>
+      </state>
+    </system>
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Interface" />
+        <option value="Class" />
+        <option value="Kotlin File" />
+        <option value="Kotlin Class" />
+      </list>
+    </option>
+  </component>
   <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="separate-modules" />
+      </map>
+    </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;
+  }
+}</component>
+  <component name="GithubPullRequestsUISettings">
+    <option name="selectedUrlAndAccountId">
+      <UrlAndAccount>
+        <option name="accountId" value="2250a90d-c265-4bf8-be49-3b26f5a45e64" />
+        <option name="url" value="https://github.com/antek16x/BORIS.git" />
+      </UrlAndAccount>
+    </option>
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
   <component name="ProjectId" id="2SKyhUFffDd5G7Zz3hVVpaaWawF" />
-  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
+    "ASKED_ADD_EXTERNAL_FILES": "true",
     "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true"
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "ignore.virus.scanning.warn.message": "true",
+    "jdk.selected.JAVA_MODULE": "17",
+    "last_opened_file_path": "C:/Users/Bajo/IdeaProjects/BORIS/shared/src/main/java/org/boris/exceptions",
+    "project.structure.last.edited": "Modules",
+    "project.structure.proportion": "0.15625",
+    "project.structure.side.proportion": "0.2",
+    "settings.editor.selected.configurable": "reference.settingsdialog.project.gradle"
   }
 }]]></component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\Bajo\IdeaProjects\BORIS\shared\src\main\java\org\boris\exceptions" />
+      <recent name="C:\Users\Bajo\IdeaProjects\BORIS\shared\src\test\java\services" />
+      <recent name="C:\Users\Bajo\IdeaProjects\BORIS\core-api\src\main\kotlin\org\boris" />
+      <recent name="C:\Users\Bajo\IdeaProjects\BORIS\shared\src\main\java\org\boris\services" />
+      <recent name="C:\Users\Bajo\IdeaProjects\BORIS\query\src\test\java\org\boris" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\Bajo\IdeaProjects\BORIS\core-api\src\main\kotlin\org\boris" />
+      <recent name="C:\Users\Bajo\IdeaProjects\BORIS\core-api\src\main\kotlin\org\boris\rest" />
+      <recent name="C:\Users\Bajo\IdeaProjects\BORIS\core-api\src\main\kotlin\org\boris\event_sourcing" />
+      <recent name="C:\Users\Bajo\IdeaProjects\BORIS\core-api\src\main\kotlin\org\boris\api" />
+      <recent name="C:\Users\Bajo\IdeaProjects\BORIS\core-api\src\main\kotlin\org\boris\axon" />
+    </key>
+    <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="org.boris.config" />
+      <recent name="org.boris" />
+      <recent name="validation" />
+      <recent name="org.boris.validation" />
+    </key>
+  </component>
+  <component name="RunManager" selected="Gradle.BORIS [test]">
+    <configuration name="BORIS [check]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list>
+            <option value="check" />
+          </list>
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <ExternalSystemDebugServerProcess>true</ExternalSystemDebugServerProcess>
+      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
+      <DebugAllEnabled>false</DebugAllEnabled>
+      <ForceTestExec>false</ForceTestExec>
+      <method v="2" />
+    </configuration>
+    <configuration name="BORIS [test]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list>
+            <option value="test" />
+          </list>
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <ExternalSystemDebugServerProcess>true</ExternalSystemDebugServerProcess>
+      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
+      <DebugAllEnabled>false</DebugAllEnabled>
+      <ForceTestExec>false</ForceTestExec>
+      <method v="2" />
+    </configuration>
+    <configuration name="VehicleProjectionTest" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" value="" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list>
+            <option value=":query:test" />
+            <option value="--tests" />
+            <option value="&quot;org.boris.VehicleProjectionTest&quot;" />
+          </list>
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <ExternalSystemDebugServerProcess>false</ExternalSystemDebugServerProcess>
+      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
+      <DebugAllEnabled>false</DebugAllEnabled>
+      <ForceTestExec>true</ForceTestExec>
+      <method v="2" />
+    </configuration>
+    <configuration name="VehicleRouterTest" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" value="" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list>
+            <option value=":app:test" />
+            <option value="--tests" />
+            <option value="&quot;rest.VehicleRouterTest&quot;" />
+          </list>
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <ExternalSystemDebugServerProcess>false</ExternalSystemDebugServerProcess>
+      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
+      <DebugAllEnabled>false</DebugAllEnabled>
+      <ForceTestExec>true</ForceTestExec>
+      <method v="2" />
+    </configuration>
+    <configuration name="VehicleServiceTest" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" value="" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list>
+            <option value=":shared:test" />
+            <option value="--tests" />
+            <option value="&quot;org.boris.services.VehicleServiceTest&quot;" />
+          </list>
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <ExternalSystemDebugServerProcess>false</ExternalSystemDebugServerProcess>
+      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
+      <DebugAllEnabled>false</DebugAllEnabled>
+      <ForceTestExec>true</ForceTestExec>
+      <method v="2" />
+    </configuration>
+    <list>
+      <item itemvalue="Application.BorisApplication" />
+      <item itemvalue="Gradle.BORIS [check]" />
+      <item itemvalue="Gradle.BORIS [test]" />
+      <item itemvalue="Gradle.VehicleServiceTest" />
+      <item itemvalue="Gradle.VehicleProjectionTest" />
+      <item itemvalue="Gradle.VehicleRouterTest" />
+    </list>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Gradle.BORIS [test]" />
+        <item itemvalue="Gradle.BORIS [check]" />
+        <item itemvalue="Gradle.VehicleServiceTest" />
+        <item itemvalue="Gradle.VehicleRouterTest" />
+        <item itemvalue="Gradle.VehicleProjectionTest" />
+      </list>
+    </recent_temporary>
+  </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
       <changelist id="958df023-a283-4c92-80ea-b4e61b338b73" name="Changes" comment="" />
+      <changelist id="732d3fd6-3ce4-4001-9e53-6dde7e7a0966" name="gitignore" comment="" />
       <created>1688909687859</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1688909687859</updated>
     </task>
+    <task id="LOCAL-00001" summary="first commit">
+      <created>1688911214014</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1688911214014</updated>
+    </task>
+    <task id="LOCAL-00002" summary="swagger working version">
+      <created>1688986328801</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1688986328801</updated>
+    </task>
+    <task id="LOCAL-00003" summary="changes in project structure and vehicle aggregate">
+      <created>1689022803633</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1689022803633</updated>
+    </task>
+    <task id="LOCAL-00004" summary="new dependencies">
+      <created>1689191970887</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1689191970887</updated>
+    </task>
+    <task id="LOCAL-00005" summary="quartz, postgres and jackson configuration">
+      <created>1689192060848</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1689192060848</updated>
+    </task>
+    <task id="LOCAL-00006" summary="query">
+      <created>1689192093591</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1689192093591</updated>
+    </task>
+    <task id="LOCAL-00007" summary="uncommented commands and events and small change in dto">
+      <created>1689192117984</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1689192117984</updated>
+    </task>
+    <task id="LOCAL-00008" summary="new endpoint and validation">
+      <created>1689192138553</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1689192138553</updated>
+    </task>
+    <task id="LOCAL-00009" summary="update telematics serviced by aggregate">
+      <created>1689192195311</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1689192195311</updated>
+    </task>
+    <task id="LOCAL-00010" summary="small changes in command and event to add vehicle">
+      <created>1689203726388</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1689203726388</updated>
+    </task>
+    <task id="LOCAL-00011" summary="new endpoint to generate report">
+      <created>1689203990255</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1689203990255</updated>
+    </task>
+    <task id="LOCAL-00012" summary="docker-compose file">
+      <created>1689242263355</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1689242263355</updated>
+    </task>
+    <task id="LOCAL-00013" summary="new endpoint, exceptions and country code validator">
+      <created>1689242333732</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1689242333732</updated>
+    </task>
+    <task id="LOCAL-00014" summary="getting position approach with service">
+      <created>1689265253567</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1689265253567</updated>
+    </task>
+    <task id="LOCAL-00015" summary="dev profile">
+      <created>1689321852562</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1689321852562</updated>
+    </task>
+    <task id="LOCAL-00016" summary="validate country when external api return invalid">
+      <created>1689322075793</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1689322075793</updated>
+    </task>
+    <task id="LOCAL-00017" summary="telemetics updating on view">
+      <created>1689322102472</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1689322102472</updated>
+    </task>
+    <task id="LOCAL-00018" summary="package name changed">
+      <created>1689322265790</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1689322265790</updated>
+    </task>
+    <task id="LOCAL-00019" summary="validator test">
+      <created>1689323746503</created>
+      <option name="number" value="00019" />
+      <option name="presentableId" value="LOCAL-00019" />
+      <option name="project" value="LOCAL" />
+      <updated>1689323746503</updated>
+    </task>
+    <task id="LOCAL-00020" summary="validator test">
+      <created>1689328237933</created>
+      <option name="number" value="00020" />
+      <option name="presentableId" value="LOCAL-00020" />
+      <option name="project" value="LOCAL" />
+      <updated>1689328237933</updated>
+    </task>
+    <task id="LOCAL-00021" summary="vehicle service test">
+      <created>1689331643347</created>
+      <option name="number" value="00021" />
+      <option name="presentableId" value="LOCAL-00021" />
+      <option name="project" value="LOCAL" />
+      <updated>1689331643347</updated>
+    </task>
+    <task id="LOCAL-00022" summary="vehicle postion service test">
+      <created>1689336934442</created>
+      <option name="number" value="00022" />
+      <option name="presentableId" value="LOCAL-00022" />
+      <option name="project" value="LOCAL" />
+      <updated>1689336934442</updated>
+    </task>
+    <task id="LOCAL-00023" summary="router test">
+      <created>1689354564905</created>
+      <option name="number" value="00023" />
+      <option name="presentableId" value="LOCAL-00023" />
+      <option name="project" value="LOCAL" />
+      <updated>1689354564905</updated>
+    </task>
+    <task id="LOCAL-00024" summary="remove unnecessary dependencies">
+      <created>1689362247183</created>
+      <option name="number" value="00024" />
+      <option name="presentableId" value="LOCAL-00024" />
+      <option name="project" value="LOCAL" />
+      <updated>1689362247183</updated>
+    </task>
+    <task id="LOCAL-00025" summary="aggregate test">
+      <created>1689362258139</created>
+      <option name="number" value="00025" />
+      <option name="presentableId" value="LOCAL-00025" />
+      <option name="project" value="LOCAL" />
+      <updated>1689362258139</updated>
+    </task>
+    <task id="LOCAL-00026" summary="vehicles projection test and warnings">
+      <created>1689364558606</created>
+      <option name="number" value="00026" />
+      <option name="presentableId" value="LOCAL-00026" />
+      <option name="project" value="LOCAL" />
+      <updated>1689364558606</updated>
+    </task>
+    <task id="LOCAL-00027" summary="projection fix">
+      <created>1689365192642</created>
+      <option name="number" value="00027" />
+      <option name="presentableId" value="LOCAL-00027" />
+      <option name="project" value="LOCAL" />
+      <updated>1689365192642</updated>
+    </task>
+    <task id="LOCAL-00028" summary="unnecessary imports">
+      <created>1689365245808</created>
+      <option name="number" value="00028" />
+      <option name="presentableId" value="LOCAL-00028" />
+      <option name="project" value="LOCAL" />
+      <updated>1689365245808</updated>
+    </task>
+    <task id="LOCAL-00029" summary="border crossing projection test">
+      <created>1689365776594</created>
+      <option name="number" value="00029" />
+      <option name="presentableId" value="LOCAL-00029" />
+      <option name="project" value="LOCAL" />
+      <updated>1689365776594</updated>
+    </task>
+    <task id="LOCAL-00030" summary=" remove todo list">
+      <created>1689365834919</created>
+      <option name="number" value="00030" />
+      <option name="presentableId" value="LOCAL-00030" />
+      <option name="project" value="LOCAL" />
+      <updated>1689365834919</updated>
+    </task>
+    <task id="LOCAL-00031" summary="little fix">
+      <created>1689370420463</created>
+      <option name="number" value="00031" />
+      <option name="presentableId" value="LOCAL-00031" />
+      <option name="project" value="LOCAL" />
+      <updated>1689370420463</updated>
+    </task>
+    <task id="LOCAL-00032" summary="removed initial country from the post, get it from the service instead">
+      <created>1690837872951</created>
+      <option name="number" value="00032" />
+      <option name="presentableId" value="LOCAL-00032" />
+      <option name="project" value="LOCAL" />
+      <updated>1690837872951</updated>
+    </task>
+    <task id="LOCAL-00033" summary="theoretical service should return single position not list">
+      <created>1691403862340</created>
+      <option name="number" value="00033" />
+      <option name="presentableId" value="LOCAL-00033" />
+      <option name="project" value="LOCAL" />
+      <updated>1691403862340</updated>
+    </task>
+    <task id="LOCAL-00034" summary="remove unnecessary event">
+      <created>1691406027176</created>
+      <option name="number" value="00034" />
+      <option name="presentableId" value="LOCAL-00034" />
+      <option name="project" value="LOCAL" />
+      <updated>1691406027176</updated>
+    </task>
+    <task id="LOCAL-00035" summary="readme update">
+      <created>1691407161454</created>
+      <option name="number" value="00035" />
+      <option name="presentableId" value="LOCAL-00035" />
+      <option name="project" value="LOCAL" />
+      <updated>1691407161454</updated>
+    </task>
+    <option name="localTasksCounter" value="36" />
     <servers />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
+    <MESSAGE value="new endpoint to generate report" />
+    <MESSAGE value="docker-compose file" />
+    <MESSAGE value="new endpoint, exceptions and country code validator" />
+    <MESSAGE value="getting position approach with service" />
+    <MESSAGE value="dev profile" />
+    <MESSAGE value="validate country when external api return invalid" />
+    <MESSAGE value="telemetics updating on view" />
+    <MESSAGE value="package name changed" />
+    <MESSAGE value="validator test" />
+    <MESSAGE value="vehicle service test" />
+    <MESSAGE value="vehicle postion service test" />
+    <MESSAGE value="router test" />
+    <MESSAGE value="remove unnecessary dependencies" />
+    <MESSAGE value="aggregate test" />
+    <MESSAGE value="vehicles projection test and warnings" />
+    <MESSAGE value="projection fix" />
+    <MESSAGE value="unnecessary imports" />
+    <MESSAGE value="border crossing projection test" />
+    <MESSAGE value=" remove todo list" />
+    <MESSAGE value="little fix" />
+    <MESSAGE value="removed initial country from the post, get it from the service instead" />
+    <MESSAGE value="theoretical service should return single position not list" />
+    <MESSAGE value="remove unnecessary event" />
+    <MESSAGE value="readme update" />
+    <MESSAGE value="separate modules" />
+    <option name="LAST_COMMIT_MESSAGE" value="separate modules" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/vehicle/src/main/java/org/boris/vehicle/Vehicle.java</url>
+          <line>71</line>
+          <option name="timeStamp" value="12" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/vehicle/src/main/java/org/boris/vehicle/Vehicle.java</url>
+          <line>100</line>
+          <option name="timeStamp" value="39" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/vehicle/src/main/java/org/boris/vehicle/Vehicle.java</url>
+          <line>87</line>
+          <option name="timeStamp" value="40" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/vehicle/src/main/java/org/boris/vehicle/Vehicle.java</url>
+          <line>92</line>
+          <properties>
+            <option name="lambda-ordinal" value="-1" />
+          </properties>
+          <option name="timeStamp" value="41" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/query/src/main/java/org/boris/projection/BorderCrossingProjection.java</url>
+          <line>28</line>
+          <option name="timeStamp" value="42" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/query/src/main/java/org/boris/projection/BorderCrossingProjection.java</url>
+          <line>29</line>
+          <option name="timeStamp" value="43" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/vehicle/src/main/java/org/boris/vehicle/Vehicle.java</url>
+          <line>108</line>
+          <option name="timeStamp" value="60" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/vehicle/src/main/java/org/boris/vehicle/Vehicle.java</url>
+          <line>203</line>
+          <option name="timeStamp" value="61" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/vehicle/src/main/java/org/boris/vehicle/Vehicle.java</url>
+          <line>50</line>
+          <option name="timeStamp" value="63" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/query/src/main/java/org/boris/projection/VehicleProjection.java</url>
+          <line>29</line>
+          <option name="timeStamp" value="64" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/vehicle/src/main/java/org/boris/vehicle/Vehicle.java</url>
+          <line>55</line>
+          <option name="timeStamp" value="65" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/vehicle/src/main/java/org/boris/vehicle/service/VehicleService.java</url>
+          <line>39</line>
+          <option name="timeStamp" value="77" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/app/src/main/java/org/boris/config/PostgresConfiguration.java</url>
+          <line>42</line>
+          <option name="timeStamp" value="80" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/app/src/main/java/org/boris/config/PostgresConfiguration.java</url>
+          <line>48</line>
+          <option name="timeStamp" value="89" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/app/src/test/java/query/DBTestConfiguration.java</url>
+          <line>49</line>
+          <option name="timeStamp" value="94" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/app/src/main/java/org/boris/rest/handler/VehicleHandler.java</url>
+          <line>211</line>
+          <option name="timeStamp" value="104" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/app/src/main/java/org/boris/rest/handler/VehicleHandler.java</url>
+          <line>207</line>
+          <option name="timeStamp" value="109" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/app/src/main/java/org/boris/rest/handler/VehicleHandler.java</url>
+          <line>181</line>
+          <option name="timeStamp" value="115" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/app/src/main/java/org/boris/rest/handler/VehicleHandler.java</url>
+          <line>193</line>
+          <option name="timeStamp" value="117" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/app/src/main/java/org/boris/rest/handler/VehicleHandler.java</url>
+          <line>99</line>
+          <option name="timeStamp" value="118" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/app/src/main/java/org/boris/rest/handler/VehicleHandler.java</url>
+          <line>89</line>
+          <option name="timeStamp" value="119" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/app/src/main/java/org/boris/rest/handler/VehicleHandler.java</url>
+          <line>90</line>
+          <option name="timeStamp" value="120" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/app/src/main/java/org/boris/config/QuartzAutoConfiguration.java</url>
+          <line>20</line>
+          <option name="timeStamp" value="121" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/vehicle/src/main/java/org/boris/vehicle/Vehicle.java</url>
+          <line>206</line>
+          <option name="timeStamp" value="124" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/vehicle/src/main/java/org/boris/vehicle/validation/VehicleValidator.java</url>
+          <line>19</line>
+          <option name="timeStamp" value="125" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/vehicle/src/main/java/org/boris/vehicle/Vehicle.java</url>
+          <line>220</line>
+          <option name="timeStamp" value="130" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/vehicle/src/main/java/org/boris/vehicle/Vehicle.java</url>
+          <line>208</line>
+          <option name="timeStamp" value="131" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/vehicle/src/main/java/org/boris/vehicle/Vehicle.java</url>
+          <line>147</line>
+          <option name="timeStamp" value="132" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/vehicle/src/main/java/org/boris/vehicle/Vehicle.java</url>
+          <line>158</line>
+          <option name="timeStamp" value="135" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/vehicle/src/main/java/org/boris/vehicle/Vehicle.java</url>
+          <line>171</line>
+          <option name="timeStamp" value="136" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
+  </component>
+  <component name="com.intellij.coverage.CoverageDataManagerImpl">
+    <SUITE FILE_PATH="coverage/BORIS$VehicleTest_addNewVehicleWithTelematicsEnabledTest.ic" NAME="VehicleTest.addNewVehicleWithTelematicsEnabledTest Coverage Results" MODIFIED="1689355983612" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
   </component>
 </project>

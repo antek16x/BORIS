@@ -103,7 +103,7 @@ public class VehicleRouter {
                             @ApiResponse(
                                     responseCode = "200",
                                     description = "Vehicle position successful updated",
-                                    content = @Content(schema = @Schema(implementation = Position.class))
+                                    content = @Content(schema = @Schema(implementation = PositionDTO.class))
                             )
                     }))
     public RouterFunction<ServerResponse> routeUpdateVehiclePosition(VehicleHandler handler) {
