@@ -5,54 +5,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="958df023-a283-4c92-80ea-b4e61b338b73" name="Changes" comment="separate modules">
-      <change afterPath="$PROJECT_DIR$/core-api/build.gradle.kts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/query/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/query/build.gradle.kts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/shared/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/shared/build.gradle.kts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vehicle/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vehicle/build.gradle.kts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/gradle.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/gradle.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/build.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/app/build.gradle.kts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/org/boris/config/JacksonAutoConfiguration.java" beforeDir="false" afterPath="$PROJECT_DIR$/shared/src/main/java/org/boris/config/JacksonAutoConfiguration.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/org/boris/config/JpaProperties.java" beforeDir="false" afterPath="$PROJECT_DIR$/shared/src/main/java/org/boris/config/JpaProperties.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/org/boris/config/PostgresConfiguration.java" beforeDir="false" afterPath="$PROJECT_DIR$/shared/src/main/java/org/boris/config/PostgresConfiguration.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/org/boris/config/QuartzAutoConfiguration.java" beforeDir="false" afterPath="$PROJECT_DIR$/shared/src/main/java/org/boris/config/QuartzAutoConfiguration.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/org/boris/config/WebClientAutoConfiguration.java" beforeDir="false" afterPath="$PROJECT_DIR$/shared/src/main/java/org/boris/config/WebClientAutoConfiguration.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/org/boris/query/entity/BorderCrossing.java" beforeDir="false" afterPath="$PROJECT_DIR$/query/src/main/java/org/boris/entity/BorderCrossing.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/org/boris/query/entity/Vehicles.java" beforeDir="false" afterPath="$PROJECT_DIR$/query/src/main/java/org/boris/entity/Vehicles.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/org/boris/query/projection/BorderCrossingProjection.java" beforeDir="false" afterPath="$PROJECT_DIR$/query/src/main/java/org/boris/projection/BorderCrossingProjection.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/org/boris/query/projection/VehicleProjection.java" beforeDir="false" afterPath="$PROJECT_DIR$/query/src/main/java/org/boris/projection/VehicleProjection.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/org/boris/query/repository/BorderCrossingRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/query/src/main/java/org/boris/repository/BorderCrossingRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/org/boris/query/repository/VehiclesRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/query/src/main/java/org/boris/repository/VehiclesRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/org/boris/rest/exceptions/InvalidBodyException.java" beforeDir="false" afterPath="$PROJECT_DIR$/shared/src/main/java/org/boris/exceptions/InvalidBodyException.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/org/boris/rest/exceptions/InvalidCountryCodeException.java" beforeDir="false" afterPath="$PROJECT_DIR$/shared/src/main/java/org/boris/exceptions/InvalidCountryCodeException.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/org/boris/rest/exceptions/VehicleAlreadyExistsException.java" beforeDir="false" afterPath="$PROJECT_DIR$/shared/src/main/java/org/boris/exceptions/VehicleAlreadyExistsException.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/org/boris/rest/exceptions/VehiclePositionUpdateException.java" beforeDir="false" afterPath="$PROJECT_DIR$/shared/src/main/java/org/boris/exceptions/VehiclePositionUpdateException.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/org/boris/rest/handler/VehicleHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/org/boris/rest/handler/VehicleHandler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/org/boris/rest/router/VehicleRouter.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/org/boris/rest/router/VehicleRouter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/org/boris/services/VehiclePositionService.java" beforeDir="false" afterPath="$PROJECT_DIR$/shared/src/main/java/org/boris/services/VehiclePositionService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/org/boris/services/VehicleService.java" beforeDir="false" afterPath="$PROJECT_DIR$/shared/src/main/java/org/boris/services/VehicleService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/org/boris/validation/VehicleValidator.java" beforeDir="false" afterPath="$PROJECT_DIR$/shared/src/main/java/org/boris/validation/VehicleValidator.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/org/boris/vehicle/Vehicle.java" beforeDir="false" afterPath="$PROJECT_DIR$/vehicle/src/main/java/org/boris/Vehicle.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/org/boris/vehicle/exceptions/CountryCodeNotFound.java" beforeDir="false" afterPath="$PROJECT_DIR$/shared/src/main/java/org/boris/exceptions/CountryCodeNotFound.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/org/boris/vehicle/exceptions/InvalidTelematicsUpdateException.java" beforeDir="false" afterPath="$PROJECT_DIR$/shared/src/main/java/org/boris/exceptions/InvalidTelematicsUpdateException.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/kotlin/org/boris/core_api/commands.kt" beforeDir="false" afterPath="$PROJECT_DIR$/core-api/src/main/kotlin/org/boris/commands.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/kotlin/org/boris/core_api/events.kt" beforeDir="false" afterPath="$PROJECT_DIR$/core-api/src/main/kotlin/org/boris/events.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/kotlin/org/boris/core_api/valueObjects.kt" beforeDir="false" afterPath="$PROJECT_DIR$/core-api/src/main/kotlin/org/boris/valueObjects.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/kotlin/org/boris/rest/dto.kt" beforeDir="false" afterPath="$PROJECT_DIR$/core-api/src/main/kotlin/org/boris/rest/dto.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/test/java/query/BorderCrossingProjectionTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/query/src/test/java/org/boris/BorderCrossingProjectionTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/test/java/query/DBTestConfiguration.java" beforeDir="false" afterPath="$PROJECT_DIR$/query/src/test/java/org/boris/DBTestConfiguration.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/test/java/query/VehicleProjectionTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/query/src/test/java/org/boris/VehicleProjectionTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/test/java/rest/VehicleRouterTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/test/java/rest/VehicleRouterTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/test/java/services/VehiclePositionServiceTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/shared/src/test/java/org/boris/services/VehiclePositionServiceTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/test/java/services/VehicleServiceTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/shared/src/test/java/org/boris/services/VehicleServiceTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/test/java/validation/VehicleValidatorTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/shared/src/test/java/org/boris/validation/VehicleValidatorTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/test/java/vehicle/VehicleTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/vehicle/src/test/java/org/boris/VehicleTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/test/resources/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/query/src/test/resources/application.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/settings.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/settings.gradle.kts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/core-api/build.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/core-api/build.gradle.kts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/query/build.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/query/build.gradle.kts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/shared/build.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/shared/build.gradle.kts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/vehicle/build.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/vehicle/build.gradle.kts" afterDir="false" />
     </list>
     <list id="732d3fd6-3ce4-4001-9e53-6dde7e7a0966" name="gitignore" comment="" />
     <option name="SHOW_DIALOG" value="false" />
@@ -144,21 +102,21 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "ASKED_ADD_EXTERNAL_FILES": "true",
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "ignore.virus.scanning.warn.message": "true",
-    "jdk.selected.JAVA_MODULE": "17",
-    "last_opened_file_path": "C:/Users/Bajo/IdeaProjects/BORIS/shared/src/main/java/org/boris/exceptions",
-    "project.structure.last.edited": "Modules",
-    "project.structure.proportion": "0.15625",
-    "project.structure.side.proportion": "0.2",
-    "settings.editor.selected.configurable": "reference.settingsdialog.project.gradle"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ASKED_ADD_EXTERNAL_FILES&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
+    &quot;jdk.selected.JAVA_MODULE&quot;: &quot;17&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/Bajo/IdeaProjects/BORIS/shared/src/main/java/org/boris/exceptions&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.15625&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;reference.settingsdialog.project.gradle&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\Bajo\IdeaProjects\BORIS\shared\src\main\java\org\boris\exceptions" />
@@ -204,6 +162,28 @@
       <ForceTestExec>false</ForceTestExec>
       <method v="2" />
     </configuration>
+    <configuration name="BORIS [clean]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list>
+            <option value="clean" />
+          </list>
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <ExternalSystemDebugServerProcess>true</ExternalSystemDebugServerProcess>
+      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
+      <DebugAllEnabled>false</DebugAllEnabled>
+      <ForceTestExec>false</ForceTestExec>
+      <method v="2" />
+    </configuration>
     <configuration name="BORIS [test]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
@@ -226,93 +206,51 @@
       <ForceTestExec>false</ForceTestExec>
       <method v="2" />
     </configuration>
-    <configuration name="VehicleProjectionTest" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
-      <ExternalSystemSettings>
-        <option name="executionName" />
-        <option name="externalProjectPath" value="$PROJECT_DIR$" />
-        <option name="externalSystemIdString" value="GRADLE" />
-        <option name="scriptParameters" value="" />
-        <option name="taskDescriptions">
-          <list />
-        </option>
-        <option name="taskNames">
-          <list>
-            <option value=":query:test" />
-            <option value="--tests" />
-            <option value="&quot;org.boris.VehicleProjectionTest&quot;" />
-          </list>
-        </option>
-        <option name="vmOptions" />
-      </ExternalSystemSettings>
-      <ExternalSystemDebugServerProcess>false</ExternalSystemDebugServerProcess>
-      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
-      <DebugAllEnabled>false</DebugAllEnabled>
-      <ForceTestExec>true</ForceTestExec>
-      <method v="2" />
+    <configuration name="BorderCrossingProjectionTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="BORIS.query.test" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="org.boris.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="org.boris" />
+      <option name="MAIN_CLASS_NAME" value="org.boris.BorderCrossingProjectionTest" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
     </configuration>
-    <configuration name="VehicleRouterTest" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
-      <ExternalSystemSettings>
-        <option name="executionName" />
-        <option name="externalProjectPath" value="$PROJECT_DIR$" />
-        <option name="externalSystemIdString" value="GRADLE" />
-        <option name="scriptParameters" value="" />
-        <option name="taskDescriptions">
-          <list />
-        </option>
-        <option name="taskNames">
-          <list>
-            <option value=":app:test" />
-            <option value="--tests" />
-            <option value="&quot;rest.VehicleRouterTest&quot;" />
-          </list>
-        </option>
-        <option name="vmOptions" />
-      </ExternalSystemSettings>
-      <ExternalSystemDebugServerProcess>false</ExternalSystemDebugServerProcess>
-      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
-      <DebugAllEnabled>false</DebugAllEnabled>
-      <ForceTestExec>true</ForceTestExec>
-      <method v="2" />
-    </configuration>
-    <configuration name="VehicleServiceTest" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
-      <ExternalSystemSettings>
-        <option name="executionName" />
-        <option name="externalProjectPath" value="$PROJECT_DIR$" />
-        <option name="externalSystemIdString" value="GRADLE" />
-        <option name="scriptParameters" value="" />
-        <option name="taskDescriptions">
-          <list />
-        </option>
-        <option name="taskNames">
-          <list>
-            <option value=":shared:test" />
-            <option value="--tests" />
-            <option value="&quot;org.boris.services.VehicleServiceTest&quot;" />
-          </list>
-        </option>
-        <option name="vmOptions" />
-      </ExternalSystemSettings>
-      <ExternalSystemDebugServerProcess>false</ExternalSystemDebugServerProcess>
-      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
-      <DebugAllEnabled>false</DebugAllEnabled>
-      <ForceTestExec>true</ForceTestExec>
-      <method v="2" />
+    <configuration name="VehicleProjectionTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="BORIS.query.test" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="org.boris.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="org.boris" />
+      <option name="MAIN_CLASS_NAME" value="org.boris.VehicleProjectionTest" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
     </configuration>
     <list>
       <item itemvalue="Application.BorisApplication" />
+      <item itemvalue="Gradle.BORIS [clean]" />
       <item itemvalue="Gradle.BORIS [check]" />
       <item itemvalue="Gradle.BORIS [test]" />
-      <item itemvalue="Gradle.VehicleServiceTest" />
-      <item itemvalue="Gradle.VehicleProjectionTest" />
-      <item itemvalue="Gradle.VehicleRouterTest" />
+      <item itemvalue="JUnit.BorderCrossingProjectionTest" />
+      <item itemvalue="JUnit.VehicleProjectionTest" />
     </list>
     <recent_temporary>
       <list>
         <item itemvalue="Gradle.BORIS [test]" />
+        <item itemvalue="Gradle.BORIS [clean]" />
         <item itemvalue="Gradle.BORIS [check]" />
-        <item itemvalue="Gradle.VehicleServiceTest" />
-        <item itemvalue="Gradle.VehicleRouterTest" />
-        <item itemvalue="Gradle.VehicleProjectionTest" />
+        <item itemvalue="JUnit.BorderCrossingProjectionTest" />
+        <item itemvalue="JUnit.VehicleProjectionTest" />
       </list>
     </recent_temporary>
   </component>

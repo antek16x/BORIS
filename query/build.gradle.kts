@@ -1,7 +1,5 @@
 plugins {
-    application
-    id("repositories-conventions")
-    id("kotlin-conventions")
+    `java-library`
     id("common-conventions")
 }
 
